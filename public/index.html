@@ -40,10 +40,37 @@
                 <a href="#modelos" class="btn-secondary">Ver Modelos</a>
             </div>
         </div>
-    </section>
+    </section> 
+
+
+    <!-- Hero Section
+<section id="inicio" class="hero-section">
+   
+    <div class="video-background">
+        <video autoplay muted loop playsinline>
+          
+            <source src="https://i.imgur.com/P0szIrG_lq.mp4" type="video/mp4">
+            Tu navegador no soporta videos HTML5.
+        </video>
+    </div>
+    <div class="hero-content">
+        <div class="tagline">
+            <i class="fas fa-leaf"></i>
+            <span>Construcción Sostenible del Futuro</span>
+        </div>
+        <h1>Construimos el Futuro del Hogar</h1>
+        <p>Viviendas modulares de lujo, sostenibles e inteligentes. Listas en semanas, no en meses.</p>
+        <div class="hero-buttons">
+            <a href="#contacto" class="btn-primary">Solicita Información <i class="fas fa-arrow-right"></i></a>
+            <a href="#modelos" class="btn-secondary">Ver Modelos</a>
+        </div>
+    </div>
+</section> -->
+
+
 
     <!-- Features Section -->
-    <section class="features-section">
+    <section class="features-section animate-on-scroll">
         <div class="container">
             <div class="section-header">
                 <h2>¿Por Qué HorizonX Properties?</h2>
@@ -75,7 +102,7 @@
     </section>
 
     <!-- Services Section -->
-    <section id="servicios" class="services-section">
+    <section id="servicios" class="services-section animate-on-scroll">
         <div class="container">
             <div class="section-header">
                 <h2>Nuestros Servicios</h2>
@@ -117,7 +144,7 @@
     </section>
 
     <!-- Models Section -->
-    <section id="modelos" class="models-section">
+    <section id="modelos" class="models-section animate-on-scroll">
         <div class="container">
             <div class="section-header">
                 <h2>Nuestros Modelos</h2>
@@ -184,77 +211,82 @@
     </section>
 
 
-    <!-- Contact Form Section -->
-    <section id="contacto" class="contact-section">
-        <div class="container">
-            <div class="section-header light">
-                <h2>Contáctanos</h2>
-                <p>Estamos listos para hacer realidad tu proyecto. Completa el formulario y nos pondremos en contacto contigo.</p>
+  <!-- Contact Form Section -->
+<section id="contacto" class="contact-section animate-on-scroll">
+    <div class="container">
+        <div class="section-header light">
+            <h2>Contáctanos</h2>
+            <p>Estamos listos para hacer realidad tu proyecto. Completa el formulario y nos pondremos en contacto contigo.</p>
+        </div>
+        <div class="contact-grid">
+            <div class="contact-info">
+                <!-- ... (toda tu información de contacto se queda igual) ... -->
+                 <h3>Información de Contacto</h3>
+                <div class="info-item">
+                    <i class="fas fa-map-marker-alt icon-blue"></i>
+                    <div>
+                        <div class="info-label">Oficina Principal</div>
+                        <div class="info-text">Tampa Bay Area, Florida</div>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-phone-alt icon-blue"></i>
+                    <div>
+                        <div class="info-label">Teléfono</div>
+                        <div class="info-text">+1 (813) 555-0100</div>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-envelope icon-blue"></i>
+                    <div>
+                        <div class="info-label">Email</div>
+                        <div class="info-text">info@horizonxproperties.com</div>
+                    </div>
+                </div>
+                <div class="hours-card">
+                    <h4>Horario de Atención</h4>
+                    <p>Lunes - Viernes: 9:00 AM - 6:00 PM</p>
+                    <p>Sábados: 10:00 AM - 4:00 PM</p>
+                    <p>Domingos: Cerrado</p>
+                </div>
             </div>
-            <div class="contact-grid">
-                <div class="contact-info">
-                    <h3>Información de Contacto</h3>
-                    <div class="info-item">
-                        <i class="fas fa-map-marker-alt icon-blue"></i>
-                        <div>
-                            <div class="info-label">Oficina Principal</div>
-                            <div class="info-text">Tampa Bay Area, Florida</div>
-                        </div>
+            <div class="contact-form-card">
+                <h3>Envíanos un Mensaje</h3>
+                <p class="form-description">Responderemos en menos de 24 horas</p>
+                
+                <form id="contactForm" class="contact-form" action="https://formspree.io/f/xpwykpwn" method="POST">
+                    <!-- ... (todos tus campos de input se quedan igual ) ... -->
+                    <div class="form-group">
+                        <label for="nombre">Nombre Completo *</label>
+                        <input type="text" id="nombre" name="Nombre" placeholder="Juan Pérez" required>
                     </div>
-                    <div class="info-item">
-                        <i class="fas fa-phone-alt icon-blue"></i>
-                        <div>
-                            <div class="info-label">Teléfono</div>
-                            <div class="info-text">+1 (813) 555-0100</div>
-                        </div>
+                    <div class="form-group">
+                        <label for="email">Email *</label>
+                        <input type="email" id="email" name="Email" placeholder="juan@ejemplo.com" required>
                     </div>
-                    <div class="info-item">
-                        <i class="fas fa-envelope icon-blue"></i>
-                        <div>
-                            <div class="info-label">Email</div>
-                            <div class="info-text">info@horizonxproperties.com</div>
-                        </div>
+                    <div class="form-group">
+                        <label for="telefono">Teléfono</label>
+                        <input type="tel" id="telefono" name="Telefono" placeholder="+1 (813 ) 555-0100">
                     </div>
-                    <div class="hours-card">
-                        <h4>Horario de Atención</h4>
-                        <p>Lunes - Viernes: 9:00 AM - 6:00 PM</p>
-                        <p>Sábados: 10:00 AM - 4:00 PM</p>
-                        <p>Domingos: Cerrado</p>
+                    <div class="form-group">
+                        <label for="mensaje">Mensaje *</label>
+                        <textarea id="mensaje" name="Mensaje" rows="4" placeholder="Cuéntanos sobre tu proyecto o consulta..." required></textarea>
                     </div>
-                </div>
-                <div class="contact-form-card">
-                    <h3>Envíanos un Mensaje</h3>
-                    <p class="form-description">Responderemos en menos de 24 horas</p>
-                    <div id="form-message" class="form-message hidden">
-                        <i class="fas fa-check-circle"></i>
-                        <span>¡Mensaje enviado! Nos contactaremos pronto.</span>
-                    </div>
-                    <form id="contactForm" class="contact-form">
-                        <div class="form-group">
-                            <label for="nombre">Nombre Completo *</label>
-                            <input type="text" id="nombre" name="nombre" placeholder="Juan Pérez" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email *</label>
-                            <input type="email" id="email" name="email" placeholder="juan@ejemplo.com" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="telefono">Teléfono</label>
-                            <input type="tel" id="telefono" name="telefono" placeholder="+1 (813) 555-0100">
-                        </div>
-                        <div class="form-group">
-                            <label for="mensaje">Mensaje *</label>
-                            <textarea id="mensaje" name="mensaje" rows="4" placeholder="Cuéntanos sobre tu proyecto o consulta..." required></textarea>
-                        </div>
-                        <button type="submit" class="btn-primary btn-full">Enviar Mensaje <i class="fas fa-arrow-right"></i></button>
-                    </form>
-                </div>
+                    <button type="submit" class="btn-primary btn-full">
+                        <span class="button-text">Enviar Mensaje</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </form>
+                <!-- Contenedor para los mensajes de estado (éxito/error) -->
+                <div id="form-status"></div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
+
 
     <!-- Footer -->
-    <footer class="footer">
+   <footer class="footer animate-on-scroll">
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-col">

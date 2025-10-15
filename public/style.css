@@ -1,3 +1,35 @@
+/* --- SISTEMA GLOBAL DE ANIMACIÓN DE ENTRADA --- */
+
+/* 1. Prepara todos los elementos que se animarán */
+/*    Por defecto, estarán invisibles y desplazados hacia abajo. */
+.animate-on-scroll {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s ease-out, transform 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* 2. Define el estado visible */
+/*    Cuando JavaScript añada esta clase, el elemento se volverá visible con una animación. */
+.animate-on-scroll.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* 3. (Opcional) Añade retrasos para un efecto escalonado más elegante */
+/*    Esto hace que los elementos dentro de una sección no aparezcan todos a la vez. */
+.is-visible .section-header {
+    transition-delay: 0.1s;
+}
+
+.is-visible .features-grid,
+.is-visible .services-grid,
+.is-visible .models-grid,
+.is-visible .contact-grid,
+.is-visible .footer-grid {
+    transition-delay: 0.3s;
+}
+
+
 /* General Styles */
 body {
     font-family: 'Poppins', sans-serif;
@@ -83,12 +115,18 @@ body {
 .btn-contact {
     background-color: #2563eb;
     color: #fff;
-    padding: 0.6rem 1.2rem;
+    
+    /* --- VALORES REDUCIDOS --- */
+    padding: 0.2rem 0.8rem; /* Antes era 0.6rem 1.2rem */
+    font-size: 0.9rem;    /* Opcional: reduce el tamaño del texto */
+    
     border-radius: 0.5rem;
     text-decoration: none;
     font-weight: 600;
-    transition: background-color 0.3s ease;
+    /* Mantenemos la animación que ya tenías */
+    transition: all 0.3s ease-in-out;
 }
+
 
 .btn-contact:hover {
     background-color: #1d4ed8;
@@ -728,3 +766,802 @@ body {
 .model-card:hover .model-image img {
     transform: scale(1.05); /* Agranda ligeramente la imagen */
 }
+
+
+/* --- CSS para el Video de Fondo en la Sección Hero (Comentado línea por línea) --- */
+
+/* 1. Ajusta la sección hero para que sea un contenedor de posicionamiento */
+/* .hero-section { */
+    /* position: relative; */ /* Necesario para posicionar el video y el contenido dentro */
+    /* overflow: hidden; */   /* Oculta cualquier parte del video que se desborde */
+    /* background-color: #1e293b; */ /* Color de fondo mientras carga el video */
+/* } */
+
+/* 2. Estilos para el contenedor del video */
+/* .video-background { */
+    /* position: absolute; */
+    /* top: 0; */
+    /* left: 0; */
+    /* width: 100%; */
+    /* height: 100%; */
+    /* z-index: 1; */ /* Coloca el video detrás del contenido */
+/* } */
+
+/* 3. Estilos para el video en sí, para que cubra todo el espacio */
+/* .video-background video { */
+    /* width: 100%; */
+    /* height: 100%; */
+    /* object-fit: cover; */ /* ¡Clave! Cubre el área sin deformarse */
+/* } */
+
+/* 4. Añade una capa oscura sobre el video para la legibilidad del texto */
+/* .hero-section::after { */
+    /* content: ''; */
+    /* position: absolute; */
+    /* top: 0; */
+    /* left: 0; */
+    /* width: 100%; */
+    /* height: 100%; */
+    /* background-color: rgba(30, 41, 59, 0.6); */ /* Negro semi-transparente. Ajusta el 0.6 para más o menos oscuridad */
+    /* z-index: 2; */ /* Capa entre el video (1) y el contenido (3) */
+/* } */
+
+/* 5. Asegúrate de que el contenido esté por encima de todo */
+/* .hero-content { */
+    /* position: relative; */ /* Lo saca del flujo normal */
+    /* z-index: 3; */         /* Lo pone en la capa superior, por encima del video y la capa oscura */
+    /* color: #fff; */        /* Cambia el color del texto a blanco para que contraste */
+/* } */
+
+/* 6. Ajusta los colores del contenido para que se vean bien sobre el fondo oscuro */
+/* .hero-section h1, */
+/* .hero-section .tagline { */
+    /* color: #fff; */ /* Título y tagline en blanco */
+/* } */
+
+/* .hero-section p { */
+    /* color: #e2e8f0; */ /* Párrafo en un blanco un poco más suave */
+/* } */
+
+/* .hero-section .tagline { */
+    /* background-color: rgba(255, 255, 255, 0.1); */ /* Fondo semi-transparente para el tagline */
+    /* color: #f1f5f9; */
+/* } */
+
+
+/* --- ESTILOS Y ANIMACIONES PARA EL FORMULARIO DE CONTACTO --- */
+
+/* Estilos para los mensajes de estado (éxito y error) */
+#form-status {
+    margin-top: 1.5rem;
+    text-align: center;
+}
+
+.form-message {
+    padding: 1rem;
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    font-weight: 500;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.form-message.success {
+    background-color: #dcfce7;
+    color: #16a34a;
+}
+
+.form-message.error {
+    background-color: #fee2e2;
+    color: #b91c1c;
+}
+
+/* Animación de aparición para los mensajes */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Estilos y animación para el botón de envío */
+.btn-primary {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-primary .fa-arrow-right {
+    transition: transform 0.3s ease;
+}
+
+/* Animación para el botón cuando está en estado de envío */
+.btn-primary.sending .fa-arrow-right {
+    animation: spin 1s linear infinite;
+}
+
+.btn-primary.sending {
+    cursor: wait;
+    background-color: #1d4ed8;
+}
+
+/* Animación de spinner para el ícono */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+
+/* --- MICROANIMACIONES PARA BOTONES HERO --- */
+
+/* 1. Preparación de los botones para las animaciones */
+.hero-section .btn-primary,
+.hero-section .btn-secondary {
+    position: relative; /* Necesario para los pseudo-elementos */
+    overflow: hidden;   /* Oculta los efectos que se salen del botón */
+    transition: all 0.4s ease-in-out; /* Transición suave para todos los cambios */
+}
+
+/* 2. Animación Constante para el Botón Principal ("Solicita Información") */
+/* Se crea un "brillo" que se mueve de izquierda a derecha */
+.hero-section .btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%; /* Empieza fuera del botón, a la izquierda */
+    width: 75%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transform: skewX(-25deg); /* Inclina el brillo */
+    animation: shine 5s infinite 2s; /* Llama a la animación 'shine' */
+}
+
+/* Definición de la animación 'shine' */
+@keyframes shine {
+    0% {
+        left: -100%;
+    }
+    40% {
+        left: 120%; /* Mueve el brillo a través del botón */
+    }
+    100% {
+        left: 120%;
+    }
+}
+
+/* 3. Micro-animación de Selección para el Botón Principal (Hover) */
+/* El botón se levanta y la flecha se mueve hacia la derecha */
+.hero-section .btn-primary:hover {
+    transform: translateY(-4px); /* Eleva ligeramente el botón */
+    box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3); /* Añade una sombra más pronunciada */
+}
+
+.hero-section .btn-primary:hover .fa-arrow-right {
+    transform: translateX(5px); /* Mueve la flecha a la derecha */
+    transition: transform 0.3s ease;
+}
+
+/* 4. Micro-animación de Selección para el Botón Secundario ("Ver Modelos") */
+/* El fondo se llena de color y el texto cambia a blanco */
+.hero-section .btn-secondary:hover {
+    color: #fff; /* Cambia el color del texto a blanco */
+    transform: translateY(-4px); /* Eleva ligeramente el botón */
+    box-shadow: 0 10px 20px rgba(37, 99, 235, 0.2); /* Añade una sombra sutil */
+}
+
+/* Se crea un fondo que se expande desde el centro */
+.hero-section .btn-secondary::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background-color: #2563eb;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.4s ease-in-out, height 0.4s ease-in-out;
+    z-index: -1; /* Lo coloca detrás del texto */
+}
+
+.hero-section .btn-secondary:hover::after {
+    width: 250%; /* Asegura que el círculo cubra todo el botón rectangular */
+    height: 250%;
+}
+
+
+/* --- MICROANIMACIONES PARA TARJETAS DE CARACTERÍSTICAS --- */
+
+/* 1. Preparación de la tarjeta para las animaciones */
+.feature-card {
+    position: relative; /* Necesario para el borde animado */
+    overflow: hidden;   /* Asegura que los efectos no se desborden */
+    transition: transform 0.3s ease-out, box-shadow 0.3s ease-out; /* Suaviza el efecto de 'flote' */
+}
+
+/* 2. Efecto de 'flote' y sombra al pasar el ratón (Hover) */
+.feature-card:hover {
+    transform: translateY(-10px); /* Eleva la tarjeta un poco más que los botones */
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.1); /* Sombra más pronunciada para dar profundidad */
+}
+
+/* 3. Animación sutil para los íconos al pasar el ratón */
+.feature-card i {
+    transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); /* Transición suave para el ícono */
+}
+
+.feature-card:hover i {
+    transform: scale(1.2) rotate(-10deg); /* El ícono se agranda y rota ligeramente */
+}
+
+/* 4. Borde que se "dibuja" al pasar el ratón (Efecto avanzado) */
+.feature-card::before,
+.feature-card::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px; /* Grosor del borde */
+    background-color: #2563eb; /* Color del borde (azul primario) */
+    transition: width 0.4s ease-in-out;
+}
+
+.feature-card::before {
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.feature-card::after {
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.feature-card:hover::before,
+.feature-card:hover::after {
+    width: 80%; /* Ancho que alcanzará el borde (no el 100% para un look más sutil) */
+}
+
+
+/* --- MICROANIMACIONES MEJORADAS PARA TARJETAS DE CARACTERÍSTICAS --- */
+
+/* 1. Preparación del contenedor para el efecto 3D */
+.features-grid {
+    perspective: 1500px; /* Crea el espacio 3D para las tarjetas */
+}
+
+/* 2. Preparación de la tarjeta para las animaciones */
+.feature-card {
+    position: relative;
+    overflow: hidden;
+    background-color: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.75rem;
+    padding: 2rem;
+    text-align: center;
+    /* Transición más suave y progresiva para el efecto 3D */
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* 3. Efecto 3D, sombra y brillo al pasar el ratón (Hover) */
+.feature-card:hover {
+    /* Inclinación 3D que sigue al ratón (el JS lo controlará, pero este es el estado base) */
+    transform: translateY(-10px) rotateX(5deg) rotateY(-5deg);
+    box-shadow: 0 20px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* 4. Animación mejorada para los íconos */
+.feature-card i {
+    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Transición con "rebote" */
+}
+
+.feature-card:hover i {
+    transform: scale(1.25) translateY(-5px); /* El ícono se agranda y se eleva */
+}
+
+/* 5. Borde que recorre todo el perímetro de la tarjeta */
+.feature-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border: 2px solid #2563eb;
+    border-radius: 0.75rem;
+    opacity: 0;
+    transform: scale(0.95);
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.feature-card:hover::before {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* 6. Brillo dinámico que sigue al cursor (Opcional, pero muy vistoso) */
+.feature-card::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at var(--mouse-x) var(--mouse-y), rgba(255, 255, 255, 0.4) 0%, transparent 25%);
+    opacity: 0;
+    transition: opacity 0.5s;
+}
+
+.feature-card:hover::after {
+    opacity: 1;
+}
+
+
+/* --- MICROANIMACIONES v2 PARA TARJETAS DE SERVICIOS (ESTILO CRISTAL) --- */
+
+/* 1. Preparación de la tarjeta de servicio */
+.service-card {
+    position: relative;
+    background-color: rgba(255, 255, 255, 0.6); /* Fondo semi-transparente */
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    border-radius: 1rem; /* Bordes más redondeados */
+    padding: 2rem;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+    
+    /* Propiedad para el efecto de cristal esmerilado */
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* 2. Borde de Neón Animado (inicialmente oculto) */
+.service-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 1rem;
+    border: 2px solid transparent;
+    
+    /* Gradiente que simula el neón */
+    background: linear-gradient(135deg, #60a5fa, #9333ea) border-box;
+    
+    /* Máscara para crear el efecto de borde */
+    -webkit-mask: 
+        linear-gradient(#fff 0 0) content-box, 
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: destination-out;
+    mask-composite: exclude;
+    
+    opacity: 0;
+    transform: scale(0.95);
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* 3. Transformación de la tarjeta al pasar el ratón (Hover) */
+.service-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 16px 40px rgba(31, 38, 135, 0.2);
+    background-color: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+.service-card:hover::before {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* 4. Reorganización del contenido al pasar el ratón */
+.service-card > i,
+.service-card h3,
+.service-card p,
+.service-card ul li {
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.service-card:hover > i {
+    transform: scale(0.8) translate(-10px, -10px);
+    color: #2563eb;
+}
+
+.service-card:hover h3 {
+    color: #2563eb;
+    transform: translateY(-5px);
+}
+
+.service-card:hover p {
+    opacity: 0.7;
+    transform: translateY(-5px);
+}
+
+.service-card:hover ul {
+    margin-top: 1rem; /* Asegura un espacio consistente */
+}
+
+.service-card:hover ul li {
+    font-weight: 500; /* Resalta el texto de la lista */
+}
+
+
+/* --- MICROANIMACIONES PARA TARJETAS DE MODELOS --- */
+
+/* 1. Preparación de la tarjeta de modelo */
+.model-card {
+    position: relative;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.75rem;
+    overflow: hidden;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* 2. Preparación de los elementos internos para la animación */
+.model-image img {
+    transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1), filter 0.5s ease;
+    filter: brightness(0.95); /* Ligeramente oscura por defecto */
+}
+
+.model-content {
+    transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.model-price,
+.model-card .btn-full {
+    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* 3. Transformación de la tarjeta al pasar el ratón (Hover) */
+.model-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* 4. Animación de los elementos internos al pasar el ratón */
+.model-card:hover .model-image img {
+    transform: scale(1.1);
+    filter: brightness(1.05); /* Se ilumina y aclara */
+}
+
+.model-card:hover .model-content {
+    /* Desliza todo el contenido hacia arriba */
+    transform: translateY(-20px); 
+}
+
+.model-card:hover .model-price {
+    transform: scale(1.05);
+    /* El color del precio se vuelve más vibrante */
+    color: #1d4ed8; 
+}
+
+.model-card.popular:hover .model-price {
+    color: #7e22ce; /* Versión más vibrante del morado */
+}
+
+.model-card:nth-child(3):hover .model-price {
+    color: #ea580c; /* Versión más vibrante del naranja */
+}
+
+/* 5. Borde de luz que aparece al hacer hover */
+.model-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border: 2px solid #2563eb;
+    border-radius: 0.75rem;
+    opacity: 0;
+    transform: scale(0.98);
+    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    /* Asegura que el borde no tape la etiqueta "Más Popular" */
+    z-index: 1; 
+}
+
+.model-card.popular::after {
+    border-color: #9333ea;
+}
+
+.model-card:nth-child(3)::after {
+    border-color: #f97316;
+}
+
+.model-card:hover::after {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Aseguramos que la etiqueta "Más Popular" esté siempre por encima del borde */
+.model-tag {
+    position: relative;
+    z-index: 2;
+}
+
+/* --- MICROANIMACIONES AVANZADAS v2 PARA TARJETAS DE MODELOS --- */
+
+/* 1. Preparación del contenedor para el efecto 3D */
+.models-grid {
+    perspective: 2000px; /* Aumentamos la perspectiva para un efecto 3D más notable */
+}
+
+/* 2. Preparación de la tarjeta de modelo */
+.model-card {
+    position: relative;
+    border-radius: 1rem; /* Bordes más redondeados */
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    /* Transición suave cuando el ratón entra y sale de la tarjeta */
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    will-change: transform; /* Optimización para el navegador */
+}
+
+/* 3. Ocultar el botón por defecto */
+.model-card .btn-full {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1) 0.2s; /* Retraso para que aparezca después */
+}
+
+/* 4. Estado Hover: Transformaciones principales */
+.model-card:hover {
+    box-shadow: 0 25px 40px rgba(0, 0, 0, 0.2);
+    /* El JS controlará la inclinación, este es el estado base al hacer hover */
+    transform: translateY(-10px) scale(1.05); 
+}
+
+.model-card:hover .btn-full {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* 5. Efecto Parallax y Animaciones de los Elementos Internos */
+.model-image, .model-content, .model-price, .model-tag {
+    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    will-change: transform;
+}
+
+.model-card:hover .model-image {
+    transform: translateY(-15px) scale(1.1); /* Se eleva y agranda */
+}
+
+.model-card:hover .model-content {
+    transform: translateY(-25px); /* Se eleva más rápido que la imagen */
+}
+
+.model-card:hover .model-price {
+    transform: translateY(-10px) scale(1.1);
+    color: #1d4ed8;
+}
+
+.model-card.popular:hover .model-price { color: #7e22ce; }
+.model-card:nth-child(3):hover .model-price { color: #ea580c; }
+
+/* 6. Brillo Reactivo y Borde de Luz (Efecto combinado) */
+.model-card::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 1rem;
+    
+    /* Brillo que sigue al ratón */
+    background: radial-gradient(circle 200px at var(--mouse-x) var(--mouse-y), rgba(255, 255, 255, 0.5), transparent);
+    
+    /* Borde que se ilumina */
+    border: 2px solid transparent;
+    background-clip: padding-box;
+    border-image: linear-gradient(135deg, var(--glow-color-1, #60a5fa), var(--glow-color-2, #9333ea)) 1;
+
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+/* Asignamos colores de borde específicos para cada tarjeta */
+.model-card.popular { --glow-color-1: #c084fc; --glow-color-2: #f472b6; }
+.model-card:nth-child(3) { --glow-color-1: #fb923c; --glow-color-2: #facc15; }
+
+.model-card:hover::after {
+    opacity: 1;
+}
+
+
+/* --- ANIMACIONES v3 PARA SECCIÓN DE CONTACTO (CORREGIDO Y MEJORADO) --- */
+
+/* 1. Animación de entrada para los elementos de la sección (requiere JS) */
+.contact-info, .contact-form-card {
+    opacity: 0;
+    transition: opacity 0.8s ease-out, transform 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+}
+.contact-info { transform: translateX(-50px); }
+.contact-form-card { transform: translateX(50px); }
+.contact-section.is-visible .contact-info,
+.contact-section.is-visible .contact-form-card {
+    opacity: 1;
+    transform: translateX(0);
+}
+.contact-section.is-visible .contact-form-card { transition-delay: 0.2s; }
+
+/* 2. Animación de Foco para los campos del formulario (SIN "Floating Label") */
+.form-group input, .form-group textarea {
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-group input:focus, .form-group textarea:focus {
+    outline: none;
+    border-color: #60a5fa; /* Borde azul claro */
+    box-shadow: 0 0 15px rgba(37, 99, 235, 0.3); /* Resplandor azul */
+}
+
+/* La etiqueta cambia de color cuando el campo está activo */
+.form-group input:focus + label, 
+.form-group textarea:focus + label {
+    color: #2563eb; /* Color principal más intenso */
+}
+
+/* 3. Iconos de información con efecto Pulso y 3D */
+.contact-info { perspective: 800px; }
+.info-item {
+    transition: transform 0.4s ease;
+    transform-style: preserve-3d;
+}
+.info-item:hover {
+    transform: translateZ(20px);
+}
+.info-item i {
+    transition: all 0.4s ease;
+}
+.info-item:hover i {
+    transform: scale(1.2);
+    color: #fff;
+    text-shadow: 0 0 10px #60a5fa, 0 0 20px #60a5fa; /* Efecto de brillo neón */
+}
+
+/* 4. Animaciones completas para el botón de envío */
+.contact-form .btn-primary {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease-in-out;
+}
+.contact-form .btn-primary:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3);
+}
+
+/* Efecto de onda al hacer clic (controlado por JS) */
+.ripple {
+    position: absolute;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.7);
+    transform: scale(0);
+    animation: ripple-effect 0.6s linear;
+}
+@keyframes ripple-effect {
+    to { transform: scale(4); opacity: 0; }
+}
+
+/* Animación de "Enviando..." con cometa orbitando */
+.contact-form .btn-primary.sending {
+    cursor: wait;
+}
+.contact-form .btn-primary.sending .button-text {
+    color: #a7c5ff; /* Texto ligeramente atenuado */
+}
+.contact-form .btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 120%;
+    height: 120%;
+    background: conic-gradient(transparent 0deg, #fff 270deg, transparent 360deg);
+    border-radius: 50%;
+    opacity: 0;
+    animation: orbit 1.5s linear infinite;
+}
+.contact-form .btn-primary.sending::before {
+    opacity: 1;
+}
+@keyframes orbit {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+
+/* --- ANIMACIONES Y MICROANIMACIONES PARA EL HEADER --- */
+
+/* 1. Animación de entrada para el header al cargar la página */
+.header {
+    /* Preparamos el header para la animación */
+    transform: translateY(-100%);
+    animation: slide-down 0.8s cubic-bezier(0.23, 1, 0.32, 1) 0.5s forwards; /* Retraso de 0.5s */
+}
+
+@keyframes slide-down {
+    to {
+        transform: translateY(0);
+    }
+}
+
+/*
+   Header "Inteligente" al hacer scroll (requiere un poco de JS).
+   Por ahora, mantenemos el 'sticky' que ya tienes. Si quieres el efecto
+   de encoger, te puedo dar el JS que es muy corto.
+*/
+.header {
+    background-color: #fff;
+    box-shadow: 0 4px 50px rgba(0, 0, 0, 0.5); 
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    transition: all 0.4s ease; /* Transición suave para todos los cambios */
+}
+
+
+/* 2. Animación de subrayado para los enlaces de navegación */
+.nav-links li a {
+    position: relative; /* Necesario para el pseudo-elemento */
+    text-decoration: none;
+    color: #475569;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.nav-links li a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    background-color: #2563eb; /* Color del subrayado */
+    bottom: -5px; /* Distancia del subrayado al texto */
+    left: 50%;
+    transform: translateX(-50%);
+    transition: width 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.nav-links li a:hover {
+    color: #1e293b; /* El texto se oscurece un poco */
+}
+
+.nav-links li a:hover::after {
+    width: 100%; /* El subrayado se expande al 100% */
+}
+
+
+/* 3. Animación de "Brillo" para el Logo */
+.logo {
+    transition: transform 0.3s ease;
+}
+.logo:hover {
+    transform: scale(1.05); /* El logo se agranda ligeramente */
+}
+.logo:hover i {
+    animation: logo-glow 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes logo-glow {
+    from {
+        text-shadow: 0 0 5px #60a5fa, 0 0 10px #60a5fa;
+    }
+    to {
+        text-shadow: 0 0 20px #2563eb, 0 0 30px #2563eb;
+    }
+}
+
+
+/* 4. Microanimación para el botón "Contáctanos" */
+.btn-contact {
+    transition: all 0.3s ease-in-out;
+}
+
+.btn-contact:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 15px rgba(37, 99, 235, 0.25);
+}
+
+
