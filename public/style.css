@@ -1565,3 +1565,324 @@ body {
 }
 
 
+/* --- ESTILO MEJORADO PARA LA TARJETA DEL FORMULARIO (INCLINACIÓN 3D FLUIDA) --- */
+
+.contact-form-card {
+    background-color: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border-radius: 1rem;
+    padding: 2.5rem;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    position: relative;
+    overflow: hidden;
+    
+    /* Clave para la animación 3D y el regreso suave */
+    transform-style: preserve-3d;
+    will-change: transform;
+    transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1); /* Transición suave al salir */
+}
+
+/* Creación del Reflejo de Luz (Glare) */
+.form-card-glare {
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at center, rgba(255, 255, 255, 0.2) 0%, transparent 40%);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    pointer-events: none;
+    z-index: 2; /* Por encima del contenido pero debajo del cursor */
+}
+
+/* Activación del reflejo al pasar el ratón */
+.contact-form-card:hover .form-card-glare {
+    opacity: 1;
+}
+
+/* Aseguramos que el contenido del formulario esté por encima del reflejo */
+.contact-form-card > h3,
+.contact-form-card > p,
+.contact-form-card > form {
+    position: relative;
+    z-index: 1;
+}
+
+
+/* --- ESTILOS PARA LA NUEVA SECCIÓN DE CONTACTO v5 --- */
+
+.contact-section-v5 {
+    background-color: #1e293b;
+    padding: 6rem 1rem;
+    position: relative;
+    overflow: hidden;
+}
+
+#particles-js {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 0;
+}
+
+.contact-section-v5 .container {
+    position: relative;
+    z-index: 1;
+}
+
+.contact-panel {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 2rem;
+    background: rgba(30, 41, 59, 0.75 );
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 1.5rem;
+    padding: 3rem;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+}
+
+.panel-info h3 {
+    font-size: 1.8rem;
+    color: #fff;
+    margin-bottom: 0.5rem;
+}
+
+.panel-info p {
+    color: #94a3b8;
+    margin-bottom: 2rem;
+}
+
+.info-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+}
+
+.info-action-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.8rem 1rem;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 0.5rem;
+    color: #cbd5e1;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.info-action-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    transform: translateY(-3px);
+}
+
+.info-action-item i {
+    color: #60a5fa;
+    font-size: 1.2rem;
+}
+
+.info-hours {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 1.5rem;
+}
+
+.info-hours h4 {
+    color: #fff;
+    margin-bottom: 1rem;
+}
+
+.info-hours p {
+    color: #94a3b8;
+    font-size: 0.9rem;
+    margin-bottom: 0.25rem;
+}
+
+/* Estilos del formulario */
+.panel-form .form-group {
+    position: relative;
+    margin-bottom: 2.5rem;
+}
+
+.panel-form input,
+.panel-form textarea {
+    width: 100%;
+    padding: 1rem 0.5rem 0.5rem 0.5rem;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.panel-form label {
+    position: absolute;
+    top: 0.8rem;
+    left: 0.5rem;
+    color: #94a3b8;
+    pointer-events: none;
+    transition: all 0.3s ease;
+}
+
+.panel-form input:focus,
+.panel-form textarea:focus {
+    border-color: #60a5fa;
+}
+
+.panel-form input:focus + label,
+.panel-form input:not(:placeholder-shown) + label,
+.panel-form textarea:focus + label,
+.panel-form textarea:not(:placeholder-shown) + label {
+    top: -1rem;
+    left: 0;
+    font-size: 0.8rem;
+    color: #60a5fa;
+}
+
+.btn-submit {
+    width: 100%;
+    padding: 1rem;
+    background: linear-gradient(45deg, #2563eb, #60a5fa);
+    border: none;
+    border-radius: 0.5rem;
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.btn-submit:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3);
+}
+
+/* Responsive para el panel */
+@media (max-width: 992px) {
+    .contact-panel {
+        grid-template-columns: 1fr;
+        padding: 2rem;
+    }
+    .panel-info {
+        text-align: center;
+    }
+    .info-actions {
+        align-items: center;
+    }
+}
+
+/* --- ESTILOS PARA LA NUEVA SECCIÓN DE CONTACTO v6 (FUSIÓN FINAL) --- */
+
+.contact-section-v6 {
+    background-color: #1e293b;
+    padding: 6rem 1rem;
+    position: relative;
+    overflow: hidden;
+    /* Prepara el contenedor para la perspectiva 3D de la tarjeta */
+    perspective: 1500px;
+}
+
+/* El panel principal que se inclinará en 3D */
+.contact-panel-3d {
+    position: relative;
+    background: rgba(30, 41, 59, 0.75);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 1.5rem;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+    
+    /* Propiedades clave para la animación 3D */
+    transform-style: preserve-3d;
+    will-change: transform;
+    transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* Borde de neón que sigue al ratón */
+.contact-panel-3d::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    border-radius: 1.5rem;
+    padding: 2px; /* Grosor del borde */
+    background: radial-gradient(350px circle at var(--mouse-x) var(--mouse-y), rgba(96, 165, 250, 0.4), transparent 80%);
+    -webkit-mask: 
+        linear-gradient(#fff 0 0) content-box, 
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.contact-panel-3d:hover::before {
+    opacity: 1;
+}
+
+/* Contenedor del contenido para el layout */
+.panel-content {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 2.5rem;
+    padding: 3rem;
+    /* Asegura que el contenido esté por encima del borde de neón */
+    position: relative;
+    z-index: 1;
+}
+
+/* Estilos de la columna de información */
+.panel-info h3 { font-size: 1.8rem; color: #fff; margin-bottom: 0.5rem; }
+.panel-info p { color: #94a3b8; margin-bottom: 2rem; }
+.info-action-item {
+    display: inline-flex; align-items: center; gap: 1rem; margin-bottom: 1rem;
+    padding: 0.8rem 1rem; background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 0.5rem; color: #cbd5e1; text-decoration: none;
+    transition: all 0.3s ease;
+}
+.info-action-item:hover { background-color: rgba(255, 255, 255, 0.1); color: #fff; transform: translateY(-3px); }
+.info-action-item i { color: #60a5fa; font-size: 1.2rem; }
+
+/* Estilos del formulario flotante */
+.panel-form .form-group { position: relative; margin-bottom: 2.5rem; }
+.panel-form input, .panel-form textarea {
+    width: 100%; padding: 1rem 0.5rem 0.5rem 0.5rem; background: transparent;
+    border: none; border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+    color: #fff; font-size: 1rem; outline: none; transition: border-color 0.3s ease;
+}
+.panel-form label {
+    position: absolute; top: 0.8rem; left: 0.5rem; color: #94a3b8;
+    pointer-events: none; transition: all 0.3s ease;
+}
+.panel-form input:focus, .panel-form textarea:focus { border-color: #60a5fa; }
+.panel-form input:focus + label, .panel-form input:not(:placeholder-shown) + label,
+.panel-form textarea:focus + label, .panel-form textarea:not(:placeholder-shown) + label {
+    top: -1rem; left: 0; font-size: 0.8rem; color: #60a5fa;
+}
+
+/* Estilos del botón de envío */
+.btn-submit {
+    width: 100%; padding: 1rem; background: linear-gradient(45deg, #2563eb, #60a5fa);
+    border: none; border-radius: 0.5rem; color: #fff; font-size: 1.1rem;
+    font-weight: 600; cursor: pointer; transition: all 0.3s ease;
+    display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+}
+.btn-submit:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3); }
+
+/* Responsive */
+@media (max-width: 992px) {
+    .panel-content { grid-template-columns: 1fr; padding: 2rem; }
+    .panel-info { text-align: center; }
+}

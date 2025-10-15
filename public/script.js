@@ -1,144 +1,42 @@
 document.addEventListener("DOMContentLoaded", function() {
-    const contactForm = document.getElementById("contactForm");
-    const formMessage = document.getElementById("form-message");
 
-    if (contactForm) {
-        contactForm.addEventListener("submit", function(event) {
-            event.preventDefault(); // Prevenir el envío por defecto del formulario
-
-            // Aquí podrías añadir lógica para enviar los datos a un servidor
-            // Por ahora, solo mostraremos un mensaje de éxito
-
-            formMessage.classList.remove("hidden");
-            contactForm.reset(); // Limpiar el formulario
-
-            setTimeout(() => {
-                formMessage.classList.add("hidden");
-            }, 5000); // Ocultar el mensaje después de 5 segundos
-        });
-    }
-
-    // Smooth scrolling for navigation links
-    document.querySelectorAll("a[href^=\"#\"]").forEach(anchor => {
-        anchor.addEventListener("click", function (e) {
-            e.preventDefault();
-
-            document.querySelector(this.getAttribute("href")).scrollIntoView({
-                behavior: "smooth"
-            });
-        });
-    });
-});
-
-document.addEventListener("DOMContentLoaded", function() {
-    // --- MANEJO DEL FORMULARIO DE CONTACTO CON AJAX ---
-    const form = document.getElementById('contactForm');
-    const formStatus = document.getElementById('form-status');
-    const submitButton = form.querySelector('button[type="submit"]');
-    const buttonText = submitButton.querySelector('.button-text');
-
-    async function handleSubmit(event) {
-        event.preventDefault(); // Previene la recarga de la página
-        const data = new FormData(event.target);
-
-        // Cambia el estado del botón a "Enviando..."
-        buttonText.textContent = 'Enviando...';
-        submitButton.disabled = true;
-        submitButton.classList.add('sending');
-
-        try {
-            const response = await fetch(event.target.action, {
-                method: form.method,
-                body: data,
-                headers: {
-                    'Accept': 'application/json'
-                }
-            });
-
-            if (response.ok) {
-                // Éxito en el envío
-                formStatus.innerHTML = '<div class="form-message success"><i class="fas fa-check-circle"></i> ¡Mensaje enviado con éxito! Nos pondremos en contacto pronto.</div>';
-                form.reset(); // Limpia el formulario
-            } else {
-                // Error en el servidor de Formspree
-                const responseData = await response.json();
-                if (Object.hasOwn(responseData, 'errors')) {
-                    const errorMessages = responseData.errors.map(error => error.message).join(', ');
-                    throw new Error(errorMessages);
-                } else {
-                    throw new Error('Oops! Hubo un problema al enviar tu mensaje.');
-                }
+    // --- 1. SISTEMA GLOBAL DE ANIMACIÓN DE ENTRADA (SCROLL REVEAL) ---
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                observer.unobserve(entry.target); // Deja de observar una vez animado
             }
-        } catch (error) {
-            // Error de red o del servidor
-            formStatus.innerHTML = `<div class="form-message error"><i class="fas fa-times-circle"></i> ${error.message}</div>`;
-        } finally {
-            // Restaura el botón a su estado original
-            buttonText.textContent = 'Enviar Mensaje';
-            submitButton.disabled = false;
-            submitButton.classList.remove('sending');
-        }
-    }
+        });
+    }, {
+        threshold: 0.1 // Se activa cuando el 10% del elemento es visible
+    });
 
-    form.addEventListener("submit", handleSubmit);
+    // Pone a observar todos los elementos con la clase .animate-on-scroll
+    document.querySelectorAll('.animate-on-scroll').forEach(element => {
+        observer.observe(element);
+    });
 
-    // --- SMOOTH SCROLLING (lo mantenemos) ---
+    // --- 2. SMOOTH SCROLLING PARA ENLACES DE NAVEGACIÓN ---
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
+        anchor.addEventListener("click", function (e) {
+            // Previene el salto brusco
             e.preventDefault();
-            document.querySelector(this.getAttribute('href')).scrollIntoView({
-                behavior: 'smooth'
-            });
+            const targetId = this.getAttribute("href");
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+                targetElement.scrollIntoView({
+                    behavior: "smooth"
+                });
+            }
         });
     });
-});
 
-
-// --- EFECTO DE BRILLO DINÁMICO PARA TARJETAS ---
-document.querySelectorAll('.feature-card').forEach(card => {
-    card.addEventListener('mousemove', e => {
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        card.style.setProperty('--mouse-x', `${x}px`);
-        card.style.setProperty('--mouse-y', `${y}px`);
-    });
-});
-
-
-// --- INTERACCIÓN 3D PARA TARJETAS DE MODELOS ---
-document.querySelectorAll('.model-card').forEach(card => {
-    const maxRotate = 15; // Grados máximos de rotación
-
-    card.addEventListener('mousemove', (e) => {
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        const { width, height } = rect;
-
-        // Calcular la rotación en los ejes X e Y
-        const rotateY = maxRotate * ((x - width / 2) / (width / 2));
-        const rotateX = -maxRotate * ((y - height / 2) / (height / 2));
-
-        // Aplicar la transformación 3D y las variables para el brillo
-        card.style.transform = `translateY(-5px) scale(1.03) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-        card.style.setProperty('--mouse-x', `${x}px`);
-        card.style.setProperty('--mouse-y', `${y}px`);
-    });
-
-    card.addEventListener('mouseleave', () => {
-        // Resetear la transformación al estado original
-        card.style.transform = 'translateY(0) scale(1) rotateX(0) rotateY(0)';
-    });
-});
-
-
-document.addEventListener("DOMContentLoaded", function() {
-    // --- MANEJO DEL FORMULARIO DE CONTACTO CON AJAX ---
-    const form = document.getElementById('contactForm');
-    if (form) {
+    // --- 3. MANEJO DEL FORMULARIO DE CONTACTO CON AJAX ---
+    const contactForm = document.getElementById('contactForm');
+    if (contactForm) {
         const formStatus = document.getElementById('form-status');
-        const submitButton = form.querySelector('button[type="submit"]');
+        const submitButton = contactForm.querySelector('button[type="submit"]');
         const buttonText = submitButton.querySelector('.button-text');
 
         async function handleSubmit(event) {
@@ -151,12 +49,16 @@ document.addEventListener("DOMContentLoaded", function() {
 
             try {
                 const response = await fetch(event.target.action, {
-                    method: form.method, body: data, headers: { 'Accept': 'application/json' }
+                    method: contactForm.method,
+                    body: data,
+                    headers: { 'Accept': 'application/json' }
                 });
+
                 if (response.ok) {
                     formStatus.innerHTML = '<div class="form-message success"><i class="fas fa-check-circle"></i> ¡Mensaje enviado con éxito!</div>';
-                    form.reset();
+                    contactForm.reset();
                 } else {
+                    // Manejo de errores de Formspree
                     const responseData = await response.json();
                     if (Object.hasOwn(responseData, 'errors')) {
                         throw new Error(responseData.errors.map(e => e.message).join(', '));
@@ -167,74 +69,108 @@ document.addEventListener("DOMContentLoaded", function() {
             } catch (error) {
                 formStatus.innerHTML = `<div class="form-message error"><i class="fas fa-times-circle"></i> ${error.message}</div>`;
             } finally {
-                setTimeout(() => { // Pequeño retraso para que la animación de éxito/error se vea
+                setTimeout(() => {
                     buttonText.textContent = 'Enviar Mensaje';
                     submitButton.disabled = false;
                     submitButton.classList.remove('sending');
-                }, 1000);
+                }, 1500);
             }
         }
-        form.addEventListener("submit", handleSubmit);
+        contactForm.addEventListener("submit", handleSubmit);
 
-        // --- EFECTO ONDA EXPANSIVA EN BOTÓN ---
+        // Efecto de onda en el botón de envío
         submitButton.addEventListener("click", function(event) {
             const button = event.currentTarget;
-            // Eliminar ondas previas
             const oldRipple = button.getElementsByClassName("ripple")[0];
             if (oldRipple) { oldRipple.remove(); }
             
-            // Crear nueva onda
             const circle = document.createElement("span");
             const diameter = Math.max(button.clientWidth, button.clientHeight);
-            const radius = diameter / 2;
             circle.style.width = circle.style.height = `${diameter}px`;
-            circle.style.left = `${event.clientX - button.getBoundingClientRect().left - radius}px`;
-            circle.style.top = `${event.clientY - button.getBoundingClientRect().top - radius}px`;
+            circle.style.left = `${event.clientX - button.getBoundingClientRect().left - (diameter / 2)}px`;
+            circle.style.top = `${event.clientY - button.getBoundingClientRect().top - (diameter / 2)}px`;
             circle.classList.add("ripple");
             button.appendChild(circle);
         });
     }
 
-    // --- ANIMACIÓN DE ENTRADA AL HACER SCROLL ---
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('is-visible');
-            }
-        });
-    }, { threshold: 0.1 });
-    const contactSection = document.querySelector('.contact-section');
-    if (contactSection) { observer.observe(contactSection); }
-
-    // --- SMOOTH SCROLLING ---
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+    // --- 4. EFECTO DE BRILLO DINÁMICO PARA TARJETAS "FEATURES" ---
+    document.querySelectorAll('.feature-card').forEach(card => {
+        card.addEventListener('mousemove', e => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            card.style.setProperty('--mouse-x', `${x}px`);
+            card.style.setProperty('--mouse-y', `${y}px`);
         });
     });
-});
 
-
-// --- SISTEMA GLOBAL DE ANIMACIÓN DE ENTRADA AL HACER SCROLL ---
-document.addEventListener("DOMContentLoaded", function() {
-    // 1. Crear el observador
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('is-visible');
-                observer.unobserve(entry.target); // Opcional: deja de observar el elemento una vez animado
-            }
+    // --- 5. INTERACCIÓN 3D PARA TARJETAS "MODELS" ---
+    document.querySelectorAll('.model-card').forEach(card => {
+        const maxRotate = 15;
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            const { width, height } = rect;
+            const rotateY = maxRotate * ((x - width / 2) / (width / 2));
+            const rotateX = -maxRotate * ((y - height / 2) / (height / 2));
+            card.style.transform = `translateY(-5px) scale(1.03) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+            card.style.setProperty('--mouse-x', `${x}px`);
+            card.style.setProperty('--mouse-y', `${y}px`);
         });
-    }, {
-        threshold: 0.1 // La animación se activa cuando el 10% del elemento es visible
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = 'translateY(0) scale(1) rotateX(0) rotateY(0)';
+        });
     });
 
-    // 2. Seleccionar todos los elementos que quieres animar
-    const elementsToAnimate = document.querySelectorAll('.animate-on-scroll');
+    // --- 6. CONFIGURACIÓN DE PARTICLES.JS (SI EXISTE) ---
+    if (document.getElementById('particles-js')) {
+        particlesJS("particles-js", {
+            "particles": {
+                "number": { "value": 60, "density": { "enable": true, "value_area": 800 } },
+                "color": { "value": "#ffffff" },
+                "shape": { "type": "circle" },
+                "opacity": { "value": 0.5, "random": true },
+                "size": { "value": 3, "random": true },
+                "line_linked": { "enable": true, "distance": 150, "color": "#ffffff", "opacity": 0.4, "width": 1 },
+                "move": { "enable": true, "speed": 2, "direction": "none", "out_mode": "out" }
+            },
+            "interactivity": {
+                "detect_on": "canvas",
+                "events": { "onhover": { "enable": true, "mode": "grab" }, "onclick": { "enable": true, "mode": "push" }, "resize": true },
+                "modes": { "grab": { "distance": 140, "line_linked": { "opacity": 1 } }, "push": { "particles_nb": 4 } }
+            },
+            "retina_detect": true
+        });
+    }
+    
+// --- 7. FUSIÓN FINAL: INCLINACIÓN 3D Y BORDE DE NEÓN PARA EL PANEL DE CONTACTO ---
+const contactPanel = document.querySelector('.contact-panel-3d');
+if (contactPanel) {
+    contactPanel.addEventListener('mousemove', (e) => {
+        const rect = contactPanel.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const { width, height } = rect;
 
-    // 3. Poner el observador a vigilar cada elemento
-    elementsToAnimate.forEach(element => {
-        observer.observe(element);
+        // 1. Calcula la rotación 3D
+        const rotateY = 15 * ((x - width / 2) / (width / 2));
+        const rotateX = -15 * ((y - height / 2) / (height / 2));
+
+        // 2. Aplica la transformación 3D
+        contactPanel.style.transform = `perspective(1500px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+
+        // 3. Pasa la posición del ratón al CSS para el borde de neón
+        contactPanel.style.setProperty('--mouse-x', `${x}px`);
+        contactPanel.style.setProperty('--mouse-y', `${y}px`);
     });
+
+    contactPanel.addEventListener('mouseleave', () => {
+        // El CSS se encargará de la transición suave de regreso
+        contactPanel.style.transform = 'perspective(1500px) rotateX(0) rotateY(0)';
+    });
+}
+
+
 });

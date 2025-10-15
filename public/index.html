@@ -213,6 +213,7 @@
 
   <!-- Contact Form Section -->
 <section id="contacto" class="contact-section animate-on-scroll">
+    <div id="particles-js"></div> <!-- AÑADE ESTA LÍNEA -->
     <div class="container">
         <div class="section-header light">
             <h2>Contáctanos</h2>
@@ -233,14 +234,14 @@
                     <i class="fas fa-phone-alt icon-blue"></i>
                     <div>
                         <div class="info-label">Teléfono</div>
-                        <div class="info-text">+1 (813) 555-0100</div>
+                        <div class="info-text">+1 (813) 373-9797</div>
                     </div>
                 </div>
                 <div class="info-item">
                     <i class="fas fa-envelope icon-blue"></i>
                     <div>
                         <div class="info-label">Email</div>
-                        <div class="info-text">info@horizonxproperties.com</div>
+                        <div class="info-text">horizonxproperties@gmail.com</div>
                     </div>
                 </div>
                 <div class="hours-card">
@@ -250,36 +251,41 @@
                     <p>Domingos: Cerrado</p>
                 </div>
             </div>
-            <div class="contact-form-card">
-                <h3>Envíanos un Mensaje</h3>
-                <p class="form-description">Responderemos en menos de 24 horas</p>
-                
-                <form id="contactForm" class="contact-form" action="https://formspree.io/f/xpwykpwn" method="POST">
-                    <!-- ... (todos tus campos de input se quedan igual ) ... -->
-                    <div class="form-group">
-                        <label for="nombre">Nombre Completo *</label>
-                        <input type="text" id="nombre" name="Nombre" placeholder="Juan Pérez" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email *</label>
-                        <input type="email" id="email" name="Email" placeholder="juan@ejemplo.com" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="telefono">Teléfono</label>
-                        <input type="tel" id="telefono" name="Telefono" placeholder="+1 (813 ) 555-0100">
-                    </div>
-                    <div class="form-group">
-                        <label for="mensaje">Mensaje *</label>
-                        <textarea id="mensaje" name="Mensaje" rows="4" placeholder="Cuéntanos sobre tu proyecto o consulta..." required></textarea>
-                    </div>
-                    <button type="submit" class="btn-primary btn-full">
-                        <span class="button-text">Enviar Mensaje</span>
-                        <i class="fas fa-arrow-right"></i>
-                    </button>
-                </form>
-                <!-- Contenedor para los mensajes de estado (éxito/error) -->
-                <div id="form-status"></div>
-            </div>
+<div class="contact-form-card">
+    <h3>Envíanos un Mensaje</h3>
+    <p class="form-description">Responderemos en menos de 24 horas</p>
+    
+    <form id="contactForm" class="contact-form" action="https://formspree.io/f/xpwykpwn" method="POST">
+        <!-- ESTRUCTURA HTML ACTUALIZADA PARA CADA CAMPO -->
+        <div class="form-group">
+            <input type="text" id="nombre" name="Nombre" placeholder=" " required>
+            <label for="nombre">Nombre Completo *</label>
+            <span class="focus-border"></span>
+        </div>
+        <div class="form-group">
+            <input type="email" id="email" name="Email" placeholder=" " required>
+            <label for="email">Email *</label>
+            <span class="focus-border"></span>
+        </div>
+        <div class="form-group">
+            <input type="tel" id="telefono" name="Telefono" placeholder=" ">
+            <label for="telefono">Teléfono</label>
+            <span class="focus-border"></span>
+        </div>
+        <div class="form-group">
+            <textarea id="mensaje" name="Mensaje" rows="4" placeholder=" " required></textarea>
+            <label for="mensaje">Mensaje *</label>
+            <span class="focus-border"></span>
+        </div>
+        
+        <button type="submit" class="btn-primary btn-full">
+            <span class="button-text">Enviar Mensaje</span>
+            <i class="fas fa-arrow-right"></i>
+        </button>
+    </form>
+    <div id="form-status"></div>
+</div>
+
         </div>
     </div>
 </section>
@@ -316,8 +322,8 @@
                     <h4>Contacto</h4>
                     <ul>
                         <li>Tampa Bay Area, FL</li>
-                        <li>+1 (813) 555-0100</li>
-                        <li>info@horizonxproperties.com</li>
+                        <li>+1 (813) 373-9797</li>
+                        <li>horizonxproperties@gmail.com</li>
                     </ul>
                 </div>
             </div>
@@ -326,6 +332,8 @@
             </div>
         </div>
     </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
 
     <script src="script.js"></script>
 </body>
