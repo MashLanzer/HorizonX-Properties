@@ -74,6 +74,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 const firestorePromise = db.collection("submissions").add({
                     name: data.Nombre,
                     email: data.Email,
+                    phone: data.Telefono || '',
                     message: data.Mensaje,
                     timestamp: firebase.firestore.FieldValue.serverTimestamp()
                 });

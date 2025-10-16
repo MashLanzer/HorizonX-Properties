@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - HorizonX Properties</title>
+    <!-- Fuentes y Iconos -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Hoja de Estilos del Dashboard -->
+    <link rel="stylesheet" href="1_dashboard/dashboard.css">
+</head>
+<body>
+    <!-- Vista de Inicio de Sesión -->
+    <div id="login-view" class="login-container">
+        <div class="login-box">
+            <div class="logo">
+                <i class="fas fa-building"></i>
+                <span>HorizonX Properties</span>
+            </div>
+            <h1>Panel de Administración</h1>
+            <p>Acceso exclusivo para administradores.</p>
+            <button id="login-btn" class="btn-login">
+                <i class="fab fa-google"></i>
+                <span>Iniciar Sesión con Google</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Vista del Dashboard Principal -->
+    <div id="dashboard-view" class="dashboard-layout">
+        <!-- Barra Lateral de Navegación -->
+        <aside class="sidebar">
+            <div class="logo">
+                <i class="fas fa-building"></i>
+                <span>HorizonX</span>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a>
+                <a href="2_clientes/clientes.html" class="nav-item"><i class="fas fa-users"></i><span>Clientes</span></a>
+                <a href="3_reportes/reportes.html" class="nav-item"><i class="fas fa-chart-bar"></i><span>Reportes</span></a>
+                <a href="4_ajustes/ajustes.html" class="nav-item"><i class="fas fa-cog"></i><span>Ajustes</span></a>
+
+            </nav>
+            <div class="sidebar-footer">
+                <button id="logout-btn" class="btn-logout"><i class="fas fa-sign-out-alt"></i><span>Cerrar Sesión</span></button>
+            </div>
+        </aside>
+
+        <!-- Contenido Principal -->
+        <main class="main-content">
+            <header class="dashboard-header">
+                <h1>Bienvenido, Administrador</h1>
+                <div class="header-actions">
+                    <span id="current-date"></span>
+                    <img id="user-avatar" src="" alt="Avatar de usuario" class="user-avatar">
+                </div>
+            </header>
+
+            <!-- Tarjetas de Métricas (KPIs ) -->
+            <section class="kpi-cards">
+                <div class="kpi-card">
+                    <div class="card-content">
+                        <div class="card-title">Total de Clientes</div>
+                        <div id="total-submissions" class="card-value">0</div>
+                    </div>
+                    <i class="fas fa-users card-icon"></i>
+                </div>
+                <div class="kpi-card">
+                    <div class="card-content">
+                        <div class="card-title">Consultas (Semana)</div>
+                        <div id="weekly-submissions" class="card-value">0</div>
+                    </div>
+                    <i class="fas fa-calendar-week card-icon"></i>
+                </div>
+                <div class="kpi-card">
+                    <div class="card-content">
+                        <div class="card-title">Consultas (Mes)</div>
+                        <div id="monthly-submissions" class="card-value">0</div>
+                    </div>
+                    <i class="fas fa-calendar-alt card-icon"></i>
+                </div>
+            </section>
+
+            <!-- Panel de Controles y Filtros -->
+            <section class="controls-panel">
+                <div class="filter-group search-group">
+                    <i class="fas fa-search"></i>
+                    <label for="start-date">Buscar</label>
+                    <input type="text" id="search-input" placeholder="Buscar por nombre, email...">
+                </div>
+                <div class="filter-group">
+                    <label for="start-date">Desde</label>
+                    <input type="date" id="start-date">
+                </div>
+                <div class="filter-group">
+                    <label for="end-date">Hasta</label>
+                    <input type="date" id="end-date">
+                </div>
+                <button id="filter-btn" class="btn-primary">Filtrar</button>
+                <button id="reset-btn" class="btn-secondary">Limpiar</button>
+                <button id="export-csv-btn" class="btn-primary export-btn"><i class="fas fa-file-download"></i> Exportar</button>
+            </section>
+
+            <!-- Tabla de Datos -->
+            <section class="table-container">
+                <table class="submissions-table">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Nombre</th>
+                            <th>Email</th>
+                            <th>Mensaje</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="submissions-body">
+                        <!-- Las filas se insertarán aquí dinámicamente -->
+                    </tbody>
+                </table>
+            </section>
+            
+            <!-- Paginación -->
+            <footer class="pagination-controls">
+                <button id="prev-page-btn" class="btn-secondary" disabled><i class="fas fa-arrow-left"></i> Anterior</button>
+                <span id="page-info">Página 1 de 1</span>
+                <button id="next-page-btn" class="btn-secondary" disabled>Siguiente <i class="fas fa-arrow-right"></i></button>
+            </footer>
+        </main>
+    </div>
+
+            <!-- ========================================= -->
+    <!--     MODAL DE DETALLES DEL CLIENTE (NUEVO)   -->
+    <!-- ========================================= -->
+    <div id="client-detail-modal" class="modal-overlay">
+        <div class="modal-content">
+            <button id="close-modal-btn" class="close-modal-btn">&times;</button>
+            <div class="modal-header">
+                <i class="fas fa-user-circle"></i>
+                <h2 id="modal-client-name"></h2>
+            </div>
+            <div class="modal-body">
+                <div class="detail-grid">
+                    <div class="detail-item">
+                        <span class="detail-label">Email</span>
+                        <span id="modal-client-email" class="detail-value"></span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Fecha de Contacto</span>
+                        <span id="modal-client-date" class="detail-value"></span>
+                    </div>
+                        <div class="detail-item">
+        <span class="detail-label">Teléfono</span>
+        <span id="modal-client-phone" class="detail-value"></span>
+    </div>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Mensaje Original</span>
+                    <p id="modal-client-message" class="detail-message"></p>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Añadir Notas Internas</span>
+                    <textarea id="modal-client-notes" placeholder="Añade notas sobre este cliente..."></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="save-notes-btn" class="btn-primary">Guardar Notas</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts de Firebase y del Dashboard -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-remote-config.js"></script>
+    <script src="5_extras/modal.js"></script>
+    <script src="1_dashboard/dashboard.js"></script>
+</body>
+</html>

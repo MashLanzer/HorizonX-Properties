@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reportes - HorizonX Dashboard</title>
+    <!-- Mismos estilos y fuentes que el dashboard principal -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="1_dashboard/dashboard.css">
+</head>
+<body>
+    <div class="dashboard-layout">
+        <!-- Barra Lateral (Sidebar ) - Reutilizamos la misma estructura -->
+        <aside class="sidebar">
+            <div class="logo">
+                <i class="fas fa-building"></i>
+                <span>HorizonX</span>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="1_dashboard/dashboard.html" class="nav-item"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a>
+                <a href="2_clientes/clientes.html" class="nav-item"><i class="fas fa-users"></i><span>Clientes</span></a>
+                <a href="3_reportes/reportes.html" class="nav-item active"><i class="fas fa-chart-bar"></i><span>Reportes</span></a>
+                <a href="4_ajustes/ajustes.html" class="nav-item"><i class="fas fa-cog"></i><span>Ajustes</span></a>
+
+            </nav>
+            <div class="sidebar-footer">
+                <button id="logout-btn" class="btn-logout"><i class="fas fa-sign-out-alt"></i><span>Cerrar Sesión</span></button>
+            </div>
+        </aside>
+
+        <!-- Contenido Principal de la Página de Reportes -->
+        <main class="main-content">
+            <header class="dashboard-header">
+                <h1>Reportes y Analíticas</h1>
+                <div class="header-actions">
+                    <span id="current-date"></span>
+                    <img id="user-avatar" src="" alt="Avatar de usuario" class="user-avatar">
+                </div>
+            </header>
+
+            <!-- Contenedor de los Gráficos -->
+            <section class="charts-grid">
+                <div class="chart-container">
+                    <h3>Consultas por Mes</h3>
+                    <canvas id="monthlySubmissionsChart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h3>Distribución de Servicios</h3>
+                    <canvas id="servicesDistributionChart"></canvas>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Scripts de Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    
+    <!-- Librería para Gráficos: Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Script específico para la página de reportes -->
+    <script src="3_reportes/reportes.js"></script>
+</body>
+</html>
