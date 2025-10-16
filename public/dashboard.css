@@ -1,0 +1,136 @@
+/* ================================================================== */
+/*        DASHBOARD.CSS - TEMA CLARO (VERSIÓN CORREGIDA Y REFINADA)   */
+/* ================================================================== */
+
+/* --- 1. PALETA DE COLORES Y ESTILOS BASE --- */
+:root {
+    --primary-color: #2563eb;
+    --primary-color-dark: #1d4ed8;
+    --bg-light: #f8fafc;         /* Fondo principal (gris muy claro) */
+    --bg-panel: #ffffff;         /* Fondo de paneles y tarjetas (blanco) */
+    --bg-hover: #f1f5f9;         /* Color para hover en tablas y menús */
+    --text-dark: #1e293b;         /* Texto principal (casi negro) */
+    --text-light: #64748b;        /* Texto secundario (gris) */
+    --border-color: #e2e8f0;      /* Color de bordes sutil */
+    --shadow-color: rgba(0, 0, 0, 0.08); /* Sombra muy suave */
+}
+
+body {
+    background-color: var(--bg-light);
+    color: var(--text-dark);
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    opacity: 0;
+    animation: fadeIn 0.5s ease forwards;
+}
+
+@keyframes fadeIn { to { opacity: 1; } }
+
+/* --- 2. VISTA DE INICIO DE SESIÓN --- */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(to bottom, #f8fafc, #e2e8f0);
+}
+.login-box {
+    background: var(--bg-panel);
+    padding: 3rem;
+    border-radius: 1rem;
+    text-align: center;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 20px 40px var(--shadow-color);
+    transform: scale(0.95);
+    animation: popIn 0.5s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+}
+@keyframes popIn { to { transform: scale(1); } }
+.login-box .logo { justify-content: center; font-size: 1.8rem; margin-bottom: 1rem; color: var(--text-dark); }
+.login-box .logo i { color: var(--primary-color); }
+.login-box h1 { font-size: 2rem; margin-bottom: 0.5rem; }
+.login-box p { color: var(--text-light); margin-bottom: 2rem; }
+.btn-login { font-size: 1.1rem; padding: 0.8rem 1.5rem; background: var(--primary-color); color: #fff; border: none; border-radius: 0.5rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.75rem; transition: all 0.3s ease; }
+.btn-login:hover { background: var(--primary-color-dark); transform: translateY(-3px); box-shadow: 0 10px 20px rgba(37, 99, 235, 0.2); }
+.btn-login i { font-size: 1.2rem; }
+
+/* --- 3. LAYOUT DEL DASHBOARD --- */
+#dashboard-view { display: none; }
+.dashboard-layout {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    min-height: 100vh;
+}
+
+/* --- 4. BARRA LATERAL (SIDEBAR) --- */
+.sidebar {
+    background: var(--bg-panel);
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+}
+.sidebar .logo { padding-bottom: 1.5rem; border-bottom: 1px solid var(--border-color); color: var(--text-dark); }
+.sidebar-nav { flex-grow: 1; margin-top: 2rem; }
+.nav-item { display: flex; align-items: center; gap: 1rem; padding: 1rem; margin-bottom: 0.5rem; border-radius: 0.5rem; color: var(--text-light); text-decoration: none; transition: all 0.3s ease; }
+.nav-item:hover { background: var(--bg-hover); color: var(--text-dark); }
+.nav-item.active { background: var(--primary-color); color: #fff; font-weight: 600; box-shadow: 0 5px 15px rgba(37, 99, 235, 0.2); }
+.nav-item i { width: 20px; text-align: center; }
+.sidebar-footer { margin-top: auto; }
+.btn-logout { width: 100%; background: transparent; border: 1px solid var(--border-color); color: var(--text-light); padding: 0.75rem; border-radius: 0.5rem; cursor: pointer; transition: all 0.3s ease; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; font-weight: 600; }
+.btn-logout:hover { background: var(--bg-hover); border-color: var(--bg-hover); color: var(--text-dark); }
+
+/* --- 5. CONTENIDO PRINCIPAL --- */
+.main-content { padding: 2.5rem; overflow-y: auto; }
+.dashboard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2.5rem; }
+.dashboard-header h1 { font-size: 2.2rem; color: var(--text-dark); }
+.header-actions { display: flex; align-items: center; gap: 1rem; color: var(--text-light); }
+.user-avatar { width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--primary-color); }
+
+/* --- 6. TARJETAS KPI --- */
+.kpi-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 2.5rem; }
+.kpi-card { background: var(--bg-panel); padding: 1.5rem; border-radius: 1rem; box-shadow: 0 10px 25px var(--shadow-color); border-left: 4px solid var(--primary-color); position: relative; overflow: hidden; transition: all 0.3s ease; }
+.kpi-card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.12); }
+.kpi-card .card-title { font-size: 1rem; color: var(--text-light); margin-bottom: 0.5rem; }
+.kpi-card .card-value { font-size: 2.5rem; font-weight: 700; color: var(--text-dark); }
+.kpi-card .card-icon { position: absolute; right: 1.5rem; top: 1.5rem; font-size: 3rem; color: var(--primary-color); opacity: 0.1; transition: transform 0.4s ease; }
+.kpi-card:hover .card-icon { transform: scale(1.2) rotate(-10deg); }
+
+/* --- 7. PANEL DE CONTROLES --- */
+.controls-panel { background: var(--bg-panel); padding: 1.5rem; border-radius: 1rem; margin-bottom: 2.5rem; display: flex; flex-wrap: wrap; gap: 1.5rem; align-items: center; box-shadow: 0 10px 25px var(--shadow-color); }
+.filter-group { display: flex; flex-direction: column; gap: 0.5rem; }
+.filter-group label { font-size: 0.9rem; font-weight: 500; color: var(--text-light); }
+.filter-group input { padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 0.5rem; font-size: 1rem; background: var(--bg-light); color: var(--text-dark); transition: all 0.3s ease; }
+.filter-group input:focus { border-color: var(--primary-color); box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2); outline: none; }
+.search-group { position: relative; }
+.search-group i { position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--text-light); }
+.search-group input { padding-left: 2.5rem; min-width: 300px; }
+.export-btn { margin-left: auto; }
+
+/* --- 8. TABLA DE DATOS --- */
+.table-container { background: var(--bg-panel); padding: 1.5rem; border-radius: 1rem; overflow-x: auto; box-shadow: 0 10px 25px var(--shadow-color); }
+.submissions-table { width: 100%; border-collapse: collapse; }
+.submissions-table th, .submissions-table td { padding: 1rem; border-bottom: 1px solid var(--border-color); text-align: left; white-space: nowrap; }
+.submissions-table th { background-color: var(--bg-hover); font-weight: 600; color: var(--text-dark); }
+.submissions-table tr { transition: background-color 0.3s ease; }
+.submissions-table tr:hover { background-color: var(--bg-hover); }
+.message-cell { white-space: normal; min-width: 300px; }
+.submissions-table a { color: var(--primary-color); text-decoration: none; font-weight: 500; }
+.submissions-table a:hover { text-decoration: underline; }
+
+/* --- 9. BOTONES GENÉRICOS --- */
+.btn-primary { background: var(--primary-color); color: #fff; border: none; padding: 0.75rem 1.5rem; border-radius: 0.5rem; cursor: pointer; transition: all 0.3s ease; }
+.btn-primary:hover { background: var(--primary-color-dark); transform: translateY(-2px); }
+.btn-secondary { background: var(--bg-hover); color: var(--text-dark); border: 1px solid var(--border-color); padding: 0.75rem 1.5rem; border-radius: 0.5rem; cursor: pointer; transition: all 0.3s ease; }
+.btn-secondary:hover { background: #e2e8f0; }
+.btn-primary, .btn-secondary { display: inline-flex; align-items: center; gap: 0.5rem; font-weight: 600; }
+
+/* --- 10. PAGINACIÓN Y RESPONSIVE --- */
+.pagination-controls { display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: 1.5rem; }
+.pagination-controls button:disabled { opacity: 0.6; cursor: not-allowed; }
+
+@media (max-width: 992px) {
+    .dashboard-layout { grid-template-columns: 1fr; }
+    .sidebar { display: none; }
+    .main-content { padding: 1rem; }
+    .dashboard-header h1 { font-size: 1.8rem; }
+}
