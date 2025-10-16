@@ -34,13 +34,14 @@
                 <span>Construcción Sostenible del Futuro</span>
             </div>
             <h1>Construimos el Futuro del Hogar</h1>
+            </div>
             <p>Viviendas modulares de lujo, sostenibles e inteligentes. Listas en semanas, no en meses.</p>
             <div class="hero-buttons">
                 <a href="#contacto" class="btn-primary">Solicita Información <i class="fas fa-arrow-right"></i></a>
                 <a href="#modelos" class="btn-secondary">Ver Modelos</a>
             </div>
         </div>
-    </section> 
+    </section>
 
 
     <!-- Hero Section
@@ -278,10 +279,14 @@
             <span class="focus-border"></span>
         </div>
         
-        <button type="submit" class="btn-primary btn-full">
-            <span class="button-text">Enviar Mensaje</span>
-            <i class="fas fa-arrow-right"></i>
-        </button>
+<button type="submit" class="btn-submit">
+    <span class="button-text">Enviar Mensaje</span>
+    <!-- Contenedor para los iconos -->
+    <span class="icon-wrapper">
+        <i class="fas fa-paper-plane icon-send"></i>
+        <i class="fas fa-rocket icon-sending"></i>
+    </span>
+</button>
     </form>
     <div id="form-status"></div>
 </div>
@@ -289,6 +294,60 @@
         </div>
     </div>
 </section>
+
+
+
+<!-- ========================================= -->
+    <!--          SECCIÓN FAQ (NUEVA )              -->
+    <!-- ========================================= 
+    <section id="faq" class="faq-section animate-on-scroll">
+        <div class="container">
+            <div class="section-header">
+                <h2>Preguntas Frecuentes</h2>
+                <p>Resolvemos tus dudas más comunes sobre la construcción modular.</p>
+            </div>
+            <div class="faq-accordion">
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>¿Cuánto tiempo tarda realmente la construcción?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Desde la firma del contrato hasta la entrega de llaves, el proceso suele tardar entre 8 y 12 semanas. La fabricación de los módulos en nuestra fábrica toma alrededor de 6 semanas, y la instalación en tu terreno solo 1-2 semanas.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>¿Las casas modulares son resistentes y duraderas?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Absolutamente. Nuestras casas se construyen con marcos de acero y materiales de alta calidad en un entorno controlado, lo que las hace a menudo más resistentes que la construcción tradicional. Cumplen y superan todos los códigos de construcción locales.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>¿Puedo personalizar mi casa modular?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>¡Sí! Ofrecemos una amplia gama de personalizaciones para acabados interiores y exteriores, incluyendo suelos, gabinetes, encimeras, colores y más. También podemos ajustar la distribución de los módulos para adaptarnos a tus necesidades.</p>
+                    </div>
+                </div>
+                 <div class="faq-item">
+                    <button class="faq-question">
+                        <span>¿Qué incluye el precio "Desde"?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>El precio base incluye los módulos de la vivienda completamente acabados, electrodomésticos estándar, y la instalación básica. No incluye el costo del terreno, la cimentación, la conexión a servicios públicos (agua, luz, alcantarillado) ni los permisos, aunque ofrecemos gestionar todo esto como un servicio completo.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>  -->
+
+
 
 
     <!-- Footer -->
@@ -329,11 +388,30 @@
             </div>
             <div class="footer-bottom">
                 <p>&copy; 2025 HorizonX Properties, LLC. Todos los derechos reservados.</p>
+                <a href="dashboard.html" aria-label="Acceso al Dashboard" style="display: block; height: 20px; cursor: default;"></a>
             </div>
         </div>
     </footer>
 
+        <!-- ========================================= -->
+    <!--     BARRA FLOTANTE DE CTA (NUEVA)         -->
+    <!-- ========================================= -->
+    <div id="floating-cta-bar" class="floating-cta-bar">
+        <div class="floating-cta-content">
+            <p class="cta-bar-text">
+                <strong>¿Listo para empezar?</strong>
+                <span>Obtén tu consulta gratuita hoy mismo.</span>
+            </p>
+            <a href="#contacto" class="btn-primary cta-bar-button">Solicitar Consulta</a>
+        </div>
+        <button id="close-cta-bar" class="close-cta-bar" aria-label="Cerrar barra de notificación">&times;</button>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+
+    <!-- Scripts de Firebase (versión 8, que coincide con la sintaxis usada ) -->
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
 
     <script src="script.js"></script>
 </body>

@@ -1,3 +1,17 @@
+// --- CONFIGURACIÓN INICIAL ---
+const firebaseConfig = {
+  apiKey: "AIzaSyBTRlG4bk_SplbYYyk2l3dgiea0E4UWSKc",
+  authDomain: "horizonx-properties.firebaseapp.com",
+  projectId: "horizonx-properties",
+  storageBucket: "horizonx-properties.firebasestorage.app",
+  messagingSenderId: "401246020029",
+  appId: "1:401246020029:web:c053032e10bbe6e6bbf2d4",
+  measurementId: "G-12PDYXDFM7"
+};
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
 document.addEventListener("DOMContentLoaded", function() {
 
     // --- 1. SISTEMA GLOBAL DE ANIMACIÓN DE ENTRADA (SCROLL REVEAL) ---
@@ -32,7 +46,7 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });
 
-    // --- 3. MANEJO DEL FORMULARIO DE CONTACTO CON AJAX ---
+ // --- 3. MANEJO DEL FORMULARIO DE CONTACTO (FORMASPREE + FIREBASE) ---
     const contactForm = document.getElementById('contactForm');
     if (contactForm) {
         const formStatus = document.getElementById('form-status');
@@ -41,33 +55,41 @@ document.addEventListener("DOMContentLoaded", function() {
 
         async function handleSubmit(event) {
             event.preventDefault();
-            const data = new FormData(event.target);
-            
+            const formData = new FormData(event.target);
+            const data = Object.fromEntries(formData.entries());
+
             buttonText.textContent = 'Enviando...';
             submitButton.disabled = true;
             submitButton.classList.add('sending');
 
             try {
-                const response = await fetch(event.target.action, {
+                // Promesa 1: Enviar a Formspree para recibir el email
+                const formspreePromise = fetch(event.target.action, {
                     method: contactForm.method,
-                    body: data,
+                    body: formData,
                     headers: { 'Accept': 'application/json' }
                 });
 
-                if (response.ok) {
+                // Promesa 2: Guardar en Firebase Firestore
+                const firestorePromise = db.collection("submissions").add({
+                    name: data.Nombre,
+                    email: data.Email,
+                    message: data.Mensaje,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                });
+
+                // Esperar a que ambas promesas se completen
+                const [formspreeResult] = await Promise.all([formspreePromise, firestorePromise]);
+
+                if (formspreeResult.ok) {
                     formStatus.innerHTML = '<div class="form-message success"><i class="fas fa-check-circle"></i> ¡Mensaje enviado con éxito!</div>';
                     contactForm.reset();
                 } else {
-                    // Manejo de errores de Formspree
-                    const responseData = await response.json();
-                    if (Object.hasOwn(responseData, 'errors')) {
-                        throw new Error(responseData.errors.map(e => e.message).join(', '));
-                    } else {
-                        throw new Error('Oops! Hubo un problema al enviar tu mensaje.');
-                    }
+                    throw new Error('Hubo un problema con el envío a Formspree.');
                 }
             } catch (error) {
-                formStatus.innerHTML = `<div class="form-message error"><i class="fas fa-times-circle"></i> ${error.message}</div>`;
+                console.error("Error en el envío:", error);
+                formStatus.innerHTML = `<div class="form-message error"><i class="fas fa-times-circle"></i> Oops! Hubo un problema.</div>`;
             } finally {
                 setTimeout(() => {
                     buttonText.textContent = 'Enviar Mensaje';
@@ -174,3 +196,54 @@ if (contactPanel) {
 
 
 });
+
+// --- 8. LÓGICA MEJORADA PARA BARRA FLOTANTE DE CTA (CON OCULTACIÓN AL FINAL) ---
+const ctaBar = document.getElementById('floating-cta-bar');
+const closeCtaBarBtn = document.getElementById('close-cta-bar');
+const footer = document.querySelector('.footer'); // Obtenemos la sección del footer
+
+if (ctaBar && closeCtaBarBtn && footer) {
+    let isCtaVisible = false; // Para controlar el estado actual
+
+    // Función principal que se ejecuta en cada scroll
+    const handleCtaVisibility = () => {
+        // No hacer nada si el usuario ya cerró la barra manualmente
+        if (sessionStorage.getItem('ctaBarClosed')) {
+            window.removeEventListener('scroll', handleCtaVisibility); // Optimización: deja de escuchar
+            return;
+        }
+
+        const scrollPosition = window.scrollY;
+        const windowHeight = window.innerHeight;
+        const footerPosition = footer.offsetTop;
+
+        // Condición para OCULTAR la barra:
+        // Si la parte inferior de la ventana está cerca o ha pasado el inicio del footer.
+        const shouldHide = (scrollPosition + windowHeight) >= footerPosition;
+
+        // Condición para MOSTRAR la barra:
+        // Si hemos bajado más de 500px Y no estamos en la zona de ocultación.
+        const shouldShow = scrollPosition > 500 && !shouldHide;
+
+        // Aplicar los cambios solo si el estado ha cambiado, para evitar manipulaciones innecesarias del DOM
+        if (shouldShow && !isCtaVisible) {
+            ctaBar.classList.add('visible');
+            isCtaVisible = true;
+        } else if (!shouldShow && isCtaVisible) {
+            ctaBar.classList.remove('visible');
+            isCtaVisible = false;
+        }
+    };
+
+    // Función para el botón de cerrar
+    const closeCtaBar = () => {
+        ctaBar.classList.remove('visible');
+        sessionStorage.setItem('ctaBarClosed', 'true');
+        // Una vez cerrada, ya no necesitamos escuchar el evento de scroll
+        window.removeEventListener('scroll', handleCtaVisibility);
+    };
+
+    // Asigna los eventos
+    window.addEventListener('scroll', handleCtaVisibility);
+    closeCtaBarBtn.addEventListener('click', closeCtaBar);
+}

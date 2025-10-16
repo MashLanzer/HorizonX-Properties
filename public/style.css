@@ -1872,17 +1872,422 @@ body {
     top: -1rem; left: 0; font-size: 0.8rem; color: #60a5fa;
 }
 
-/* Estilos del botón de envío */
-.btn-submit {
-    width: 100%; padding: 1rem; background: linear-gradient(45deg, #2563eb, #60a5fa);
-    border: none; border-radius: 0.5rem; color: #fff; font-size: 1.1rem;
-    font-weight: 600; cursor: pointer; transition: all 0.3s ease;
-    display: flex; align-items: center; justify-content: center; gap: 0.5rem;
-}
-.btn-submit:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3); }
+/* --- ESTILOS PARA EL NUEVO BOTÓN DE ENVÍO "ENERGÍA CÓSMICA" --- */
 
-/* Responsive */
-@media (max-width: 992px) {
-    .panel-content { grid-template-columns: 1fr; padding: 2rem; }
-    .panel-info { text-align: center; }
+.btn-submit {
+    width: 100%;
+    padding: 1rem;
+    background: linear-gradient(90deg, #2563eb, #60a5fa, #2563eb);
+    background-size: 200% 100%; /* Para la animación del gradiente */
+    border: none;
+    border-radius: 0.5rem;
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    position: relative;
+    overflow: visible; /* Permitimos que las partículas se vean fuera */
+    
+    /* Animación del gradiente en reposo */
+    animation: gradient-flow 5s linear infinite;
+    
+    /* Transiciones suaves para todos los efectos */
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+@keyframes gradient-flow {
+    0% { background-position: 200% 0; }
+    100% { background-position: 0% 0; }
+}
+
+/* --- Estado Hover --- */
+.btn-submit:hover {
+    transform: translateY(-6px) scale(1.05);
+    box-shadow: 0 15px 25px rgba(37, 99, 235, 0.4);
+    animation-play-state: paused; /* Pausamos la animación base */
+}
+
+.btn-submit:hover .button-text {
+    transform: translateX(-5px);
+}
+
+.btn-submit:hover .icon-wrapper {
+    transform: translateX(5px);
+}
+
+/* --- Estado Active (Click) --- */
+.btn-submit:active {
+    transform: translateY(-2px) scale(1);
+    box-shadow: 0 5px 15px rgba(37, 99, 235, 0.3);
+}
+
+/* --- Iconos y su contenedor --- */
+.icon-wrapper {
+    position: relative;
+    width: 1em;
+    height: 1em;
+    transition: transform 0.4s ease;
+}
+
+.icon-wrapper .fas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.icon-sending {
+    opacity: 0;
+    transform: translateY(20px) rotate(-45deg);
+}
+
+/* --- Estado Sending (Enviando) --- */
+.btn-submit.sending {
+    cursor: wait;
+}
+
+.btn-submit.sending .icon-send {
+    opacity: 0;
+    transform: translateY(-20px) rotate(45deg);
+}
+
+.btn-submit.sending .icon-sending {
+    opacity: 1;
+    transform: translateY(0) rotate(0);
+    /* Animación del cohete despegando */
+    animation: rocket-launch 1.2s ease-in-out infinite;
+}
+
+@keyframes rocket-launch {
+    0% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-15px) scale(1.1); }
+    100% { transform: translateY(0) scale(1); }
+}
+
+/* --- Partículas Orbitando (Efecto Avanzado) --- */
+.btn-submit::before, .btn-submit::after {
+    content: '';
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: #fff;
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    /* Animación de la órbita */
+    animation: orbit 3s linear infinite;
+}
+
+.btn-submit::after {
+    width: 4px;
+    height: 4px;
+    animation-delay: -1.5s; /* Desfase para la segunda partícula */
+    animation-duration: 2.5s;
+}
+
+.btn-submit:hover::before, .btn-submit:hover::after {
+    opacity: 0.7;
+}
+
+@keyframes orbit {
+    from { transform: rotate(0deg) translateX(60px) rotate(0deg); }
+    to   { transform: rotate(360deg) translateX(60px) rotate(-360deg); }
+}
+
+
+/* 8. Sección de Preguntas Frecuentes (FAQ) */
+.faq-section {
+    background-color: var(--white);
+    padding: 6rem 1rem;
+}
+
+.faq-accordion {
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.faq-item {
+    background: var(--white);
+    border: 1px solid var(--border-color);
+    border-radius: 0.75rem;
+    overflow: hidden;
+}
+
+.faq-question {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.faq-question i {
+    transition: transform 0.3s ease;
+}
+
+.faq-item.active .faq-question i {
+    transform: rotate(180deg);
+}
+
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease-in-out, padding 0.5s ease-in-out;
+}
+
+.faq-answer p {
+    padding: 0 1.5rem 1.5rem;
+    margin: 0;
+    color: var(--text-light);
+    line-height: 1.7;
+}
+
+/* --- ESTILOS FINALES v5 PARA BARRA FLOTANTE (FONDO BLANCO Y BOTÓN "GEMA") --- */
+
+.floating-cta-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1001;
+    padding: 0 1rem;
+    
+    /* Estado inicial: oculta y ligeramente por debajo */
+    opacity: 0;
+    transform: translateY(100%);
+    pointer-events: none;
+    
+    /* Transición con curva "elástica" */
+    transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55), opacity 0.5s ease;
+}
+
+/* Contenedor interno con el diseño blanco */
+.floating-cta-content {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 1.25rem 2rem;
+    
+    /* Fondo blanco sólido */
+    background: #ffffff;
+    
+    border-radius: 12px 12px 0 0;
+    /* Sombra suave y pronunciada para el efecto flotante */
+    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.15);
+    border-top: 1px solid #e2e8f0;
+    
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    position: relative;
+}
+
+/* Estado visible: activa la animación de entrada */
+.floating-cta-bar.visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+/* Texto con colores de alto contraste */
+.cta-bar-text {
+    margin: 0;
+    font-size: 1.1rem;
+    flex-grow: 1;
+    color: #475569; /* Color de texto secundario */
+}
+
+.cta-bar-text strong {
+    color: #1e293b; /* Color de texto principal */
+    font-weight: 600;
+}
+
+/* --- Botón "Gema Pulsante" --- */
+.cta-bar-button {
+    padding: 0.8rem 1.8rem;
+    font-weight: 600;
+    position: relative;
+    overflow: hidden;
+    border: none;
+    border-radius: 0.5rem;
+    color: #fff;
+    
+    /* Gradiente de fondo */
+    background: linear-gradient(45deg, #1d4ed8, #3b82f6);
+    
+    /* Animación de pulso para la sombra */
+    animation: gem-pulse 2.5s infinite;
+    
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+@keyframes gem-pulse {
+    0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4); }
+    70% { box-shadow: 0 0 0 15px rgba(59, 130, 246, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+}
+
+.cta-bar-button:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 15px 25px rgba(59, 130, 246, 0.3);
+    animation-play-state: paused; /* Pausa el pulso al hacer hover */
+}
+
+/* Reflejo de luz que se mueve al hacer hover */
+.cta-bar-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 75%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    transform: skewX(-25deg);
+    transition: left 0.8s ease;
+}
+
+.cta-bar-button:hover::before {
+    left: 120%;
+}
+
+/* Botón de cerrar con diseño limpio */
+.close-cta-bar {
+    background: #f1f5f9;
+    border: 1px solid #e2e8f0;
+    border-radius: 50%;
+    color: #64748b;
+    width: 36px;
+    height: 36px;
+    font-size: 1.5rem;
+    line-height: 1;
+    cursor: pointer;
+    opacity: 0.8;
+    transition: all 0.3s ease;
+    
+    position: absolute;
+    top: -18px; /* Lo posiciona a la mitad sobre el borde superior */
+    right: 20px;
+}
+
+.close-cta-bar:hover {
+    opacity: 1;
+    background: #e2e8f0;
+    transform: scale(1.1) rotate(90deg);
+}
+
+/* Ajustes para móviles */
+@media (max-width: 768px) {
+    .floating-cta-content {
+        flex-direction: column;
+        text-align: center;
+        padding: 1.5rem 1rem;
+    }
+    .close-cta-bar {
+        top: 10px;
+        right: 10px;
+    }
+}
+
+
+/* --- ANIMACIÓN CONSTANTE PARA EL BOTÓN PRINCIPAL DEL HERO --- */
+
+.hero-section .btn-primary {
+    position: relative; /* Necesario para la animación de pulso */
+    z-index: 1;
+    
+    /* Aplicamos DOS animaciones al mismo tiempo: */
+    /* 1. 'pulse-shadow' para la sombra que se expande */
+    /* 2. 'button-glow' para el brillo interno del botón */
+    animation: 
+        pulse-shadow 2.5s infinite cubic-bezier(0.66, 0, 0, 1),
+        button-glow 2.5s infinite alternate ease-in-out;
+        
+    /* Mantenemos las transiciones para el efecto de hover */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* 1. Definición de la animación de la sombra (PULSO) */
+@keyframes pulse-shadow {
+    0% {
+        box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7);
+    }
+    100% {
+        box-shadow: 0 0 0 25px rgba(59, 130, 246, 0);
+    }
+}
+
+/* 2. Definición de la animación del brillo interno */
+@keyframes button-glow {
+    from {
+        /* Brillo sutil en estado normal */
+        filter: brightness(100%);
+    }
+    to {
+        /* Brillo más intenso para el efecto "energizado" */
+        filter: brightness(120%);
+    }
+}
+
+/* 3. Mejoramos el estado :hover para que se sienta más reactivo */
+.hero-section .btn-primary:hover {
+    /* Pausamos las animaciones constantes al pasar el ratón para dar control al usuario */
+    animation-play-state: paused;
+    
+    /* Efecto de elevación más pronunciado */
+    transform: translateY(-8px) scale(1.05);
+    box-shadow: 0 15px 25px rgba(37, 99, 235, 0.3);
+    filter: brightness(110%); /* Mantenemos un brillo agradable */
+}
+
+/* No olvides la animación de la flecha que ya tenías */
+.hero-section .btn-primary .fa-arrow-right {
+    transition: transform 0.3s ease;
+}
+
+.hero-section .btn-primary:hover .fa-arrow-right {
+    transform: translateX(8px) rotate(45deg);
+}
+
+/* --- ANIMACIÓN "SHIMMER" PARA EL TITULAR PRINCIPAL DEL HERO --- */
+
+.hero-section h1 {
+    font-size: 4rem;
+    font-weight: 800;
+    color: var(--text-dark);
+    margin-bottom: 1.5rem;
+    line-height: 1.1;
+    
+    /* Preparamos el h1 para el efecto shimmer */
+    position: relative;
+    color: transparent; /* Hacemos el texto base transparente */
+    
+    /* Creamos el texto con un fondo de gradiente */
+    background: linear-gradient(90deg, #334155, #1e293b, #334155);
+    -webkit-background-clip: text;
+    background-clip: text;
+    
+    /* Animación de entrada para que el texto aparezca suavemente */
+    opacity: 0;
+    animation: fade-in-title 1s ease-out 0.5s forwards;
+}
+
+@keyframes fade-in-title {
+    to {
+        opacity: 1;
+    }
 }
