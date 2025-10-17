@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - HorizonX Properties</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/admin_dashboard.css">
+</head>
+<body>
+    <!-- Vista de Inicio de Sesión -->
+    <div id="login-view" class="login-container">
+        <div class="login-box">
+            <div class="logo">
+                <i class="fas fa-building"></i>
+                <span>HorizonX Properties</span>
+            </div>
+            <h1>Admin Panel</h1>
+            <p>Inicia sesión con tu cuenta de Google de administrador.</p>
+            <button id="login-btn" class="btn-login">
+                <i class="fab fa-google"></i>
+                <span>Iniciar Sesión con Google</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Vista del Dashboard Administrativo -->
+    <div id="admin-dashboard-view" class="dashboard-layout">
+        <!-- Barra Lateral (Sidebar) -->
+        <aside class="sidebar">
+            <div class="logo">
+                <i class="fas fa-building"></i>
+                <span>Admin Panel</span>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#summary" class="nav-item active" data-section="summary"><i class="fas fa-chart-line"></i><span>Resumen</span></a>
+                <a href="#clients" class="nav-item" data-section="clients"><i class="fas fa-users"></i><span>Clientes</span></a>
+                <a href="#properties" class="nav-item" data-section="properties"><i class="fas fa-home"></i><span>Propiedades</span></a>
+                <a href="#projects" class="nav-item" data-section="projects"><i class="fas fa-project-diagram"></i><span>Proyectos</span></a>
+                <a href="#accounting" class="nav-item" data-section="accounting"><i class="fas fa-calculator"></i><span>Contabilidad</span></a>
+                <a href="#settings" class="nav-item" data-section="settings"><i class="fas fa-cog"></i><span>Ajustes</span></a>
+            </nav>
+            <div class="sidebar-footer">
+                <button id="logout-btn" class="btn-logout"><i class="fas fa-sign-out-alt"></i><span>Cerrar Sesión</span></button>
+            </div>
+        </aside>
+
+        <!-- Contenido Principal -->
+        <main class="main-content">
+            <header class="dashboard-header">
+                <h1 id="main-title">Resumen del Administrador</h1>
+                <div class="header-actions">
+                    <span id="current-date"></span>
+                    <img id="user-avatar" src="" alt="Avatar de usuario" class="user-avatar">
+                </div>
+            </header>
+
+            <!-- Sección de Resumen -->
+            <section id="summary" class="dashboard-section active">
+                <div class="kpi-cards">
+                    <div class="kpi-card">
+                        <i class="fas fa-users card-icon"></i>
+                        <div class="card-title">Clientes Registrados</div>
+                        <div id="total-clients" class="card-value">0</div>
+                    </div>
+                    <div class="kpi-card">
+                        <i class="fas fa-home card-icon"></i>
+                        <div class="card-title">Propiedades Activas</div>
+                        <div id="active-properties" class="card-value">0</div>
+                    </div>
+                    <div class="kpi-card">
+                        <i class="fas fa-project-diagram card-icon"></i>
+                        <div class="card-title">Proyectos en Curso</div>
+                        <div id="ongoing-projects" class="card-value">0</div>
+                    </div>
+                    <div class="kpi-card">
+                        <i class="fas fa-dollar-sign card-icon"></i>
+                        <div class="card-title">Ingresos Totales</div>
+                        <div id="total-revenue" class="card-value">$0</div>
+                    </div>
+                </div>
+                
+                <div class="chart-container">
+                    <h2>Actividad Reciente</h2>
+                    <canvas id="activityChart"></canvas>
+                </div>
+            </section>
+
+            <!-- Sección de Clientes -->
+            <section id="clients" class="dashboard-section">
+                <h2>Gestión de Clientes</h2>
+                <button class="btn-primary add-new-btn"><i class="fas fa-plus"></i> Añadir Nuevo Cliente</button>
+                <div class="table-filters">
+                    <input type="text" id="client-search" placeholder="Buscar cliente...">
+                    <button class="btn-secondary"><i class="fas fa-filter"></i> Filtrar</button>
+                </div>
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Email</th>
+                                <th>Teléfono</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="clients-table-body">
+                            <!-- Datos de clientes aquí -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Sección de Propiedades -->
+            <section id="properties" class="dashboard-section">
+                <h2>Gestión de Propiedades</h2>
+                <button class="btn-primary add-new-btn"><i class="fas fa-plus"></i> Añadir Nueva Propiedad</button>
+                <div class="table-filters">
+                    <input type="text" id="property-search" placeholder="Buscar propiedad...">
+                    <select id="property-status-filter">
+                        <option value="">Todos los estados</option>
+                        <option value="disponible">Disponible</option>
+                        <option value="vendida">Vendida</option>
+                        <option value="en-construccion">En Construcción</option>
+                    </select>
+                </div>
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Módulos</th>
+                                <th>Precio</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="properties-table-body">
+                            <!-- Datos de propiedades aquí -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Sección de Proyectos -->
+            <section id="projects" class="dashboard-section">
+                <h2>Gestión de Proyectos</h2>
+                <button class="btn-primary add-new-btn"><i class="fas fa-plus"></i> Añadir Nuevo Proyecto</button>
+                <div class="table-filters">
+                    <input type="text" id="project-search" placeholder="Buscar proyecto...">
+                    <select id="project-status-filter">
+                        <option value="">Todos los estados</option>
+                        <option value="planificacion">Planificación</option>
+                        <option value="activo">Activo</option>
+                        <option value="completado">Completado</option>
+                        <option value="pausado">Pausado</option>
+                    </select>
+                </div>
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Cliente</th>
+                                <th>Fecha Inicio</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="projects-table-body">
+                            <!-- Datos de proyectos aquí -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Sección de Contabilidad -->
+            <section id="accounting" class="dashboard-section">
+                <h2>Contabilidad y Finanzas</h2>
+                <div class="kpi-cards">
+                    <div class="kpi-card">
+                        <i class="fas fa-money-bill-wave card-icon"></i>
+                        <div class="card-title">Ingresos Mes</div>
+                        <div id="monthly-income" class="card-value">$0</div>
+                    </div>
+                    <div class="kpi-card">
+                        <i class="fas fa-hand-holding-usd card-icon"></i>
+                        <div class="card-title">Gastos Mes</div>
+                        <div id="monthly-expenses" class="card-value">$0</div>
+                    </div>
+                    <div class="kpi-card">
+                        <i class="fas fa-balance-scale card-icon"></i>
+                        <div class="card-title">Balance Actual</div>
+                        <div id="current-balance" class="card-value">$0</div>
+                    </div>
+                </div>
+                <button class="btn-primary add-new-btn"><i class="fas fa-plus"></i> Registrar Transacción</button>
+                <div class="table-filters">
+                    <input type="text" id="transaction-search" placeholder="Buscar transacción...">
+                    <select id="transaction-type-filter">
+                        <option value="">Todos los tipos</option>
+                        <option value="ingreso">Ingreso</option>
+                        <option value="gasto">Gasto</option>
+                    </select>
+                </div>
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Descripción</th>
+                                <th>Tipo</th>
+                                <th>Monto</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="transactions-table-body">
+                            <!-- Datos de transacciones aquí -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Sección de Ajustes -->
+            <section id="settings" class="dashboard-section">
+                <h2>Ajustes del Administrador</h2>
+                <div class="settings-card">
+                    <h3>Gestionar Administradores</h3>
+                    <p>Añade o elimina correos electrónicos con acceso al panel de administración.</p>
+                    <div class="admin-management">
+                        <input type="email" id="new-admin-email" placeholder="Correo electrónico del nuevo administrador">
+                        <button id="add-admin-btn" class="btn-primary"><i class="fas fa-plus"></i> Añadir Administrador</button>
+                    </div>
+                    <div id="admin-list-container" class="admin-list">
+                        <!-- Lista de administradores aquí -->
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+        <!-- ================================================== -->
+    <!-- === MODAL PARA AÑADIR/EDITAR DATOS (AÑADIDO) === -->
+    <!-- ================================================== -->
+    <div id="admin-data-modal" class="modal-overlay">
+        <div class="modal-content">
+            <button id="close-admin-modal-btn" class="close-modal-btn">&times;</button>
+            <div class="modal-header">
+                <i id="admin-modal-icon" class="fas fa-edit"></i>
+                <h2 id="admin-modal-title">Añadir/Editar</h2>
+            </div>
+            <form id="admin-modal-form" class="modal-body">
+                <div id="admin-modal-form-fields">
+                    <!-- Los campos del formulario se generarán aquí con JavaScript -->
+                </div>
+            </form>
+            <div id="admin-modal-delete-confirmation" style="display: none; margin-top: 1rem; padding: 1rem; background-color: #fee2e2; border: 1px solid #ef4444; border-radius: 0.5rem;">
+                <p><strong>¿Estás seguro de que quieres eliminar este elemento?</strong> Esta acción no se puede deshacer.</p>
+                <div style="display: flex; justify-content: flex-end; gap: 1rem; margin-top: 1rem;">
+                    <button id="cancel-delete-btn" class="btn-secondary">Cancelar</button>
+                    <button id="confirm-delete-btn" class="btn-primary" style="background-color: var(--accent-color);">Sí, Eliminar</button>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="admin-modal-delete-btn" class="btn-secondary" style="background-color: var(--accent-color); color: white; margin-right: auto; display: none;">Eliminar</button>
+                <button id="admin-modal-save-btn" type="submit" form="admin-modal-form" class="btn-primary">Guardar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-remote-config.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-functions.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="../assets/js/admin_modal.js"></script> <!-- Modal específico para admin -->
+    <script src="../assets/js/admin_dashboard.js"></script>
+</body>
+</html>
