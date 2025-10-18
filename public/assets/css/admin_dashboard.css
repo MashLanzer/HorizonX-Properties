@@ -766,3 +766,36 @@ h1, h2, h3, h4, h5, h6 {
     min-height: 120px;
     resize: vertical;
 }
+
+
+/* --- ESTILOS ADICIONALES PARA CONTABILIDAD (AÑADIR AL FINAL) --- */
+
+/* Colores para montos en la tabla */
+.data-table .amount-income {
+    color: #16a34a; /* Verde */
+    font-weight: 600;
+}
+
+.data-table .amount-expense {
+    color: #dc2626; /* Rojo */
+    font-weight: 600;
+}
+
+/* Estilos para las etiquetas de estado (ingreso/gasto) */
+.data-table .status {
+    padding: 0.25rem 0.6rem;
+    border-radius: 1rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+.data-table .status-ingreso {
+    background-color: #dcfce7; /* Verde claro */
+    color: #15803d; /* Verde oscuro */
+}
+
+.data-table .status-gasto {
+    background-color: #fee2e2; /* Rojo claro */
+    color: #b91c1c; /* Rojo oscuro */
+}
