@@ -38,6 +38,21 @@ document.addEventListener("DOMContentLoaded", function() {
     const confirmDeleteBtn = document.getElementById("confirm-delete-btn");
     const cancelDeleteBtn = document.getElementById("cancel-delete-btn");
 
+    // --- Elementos de Filtros (Clientes) --- (Añade esto al inicio, con los demás elementos del DOM)
+const clientSearchInput = document.getElementById("client-search");
+const clientStatusFilter = document.getElementById("client-status-filter");
+const clientsGridContainer = document.getElementById("clients-grid-container");
+const clientsLoader = document.getElementById("clients-loader");
+const noClientsMessage = document.getElementById("no-clients-message");
+
+// --- Añade estos elementos del DOM al inicio ---
+const propertySearchInput = document.getElementById("property-search");
+const propertyStatusFilter = document.getElementById("property-status-filter");
+const propertiesGridContainer = document.getElementById("properties-grid-container");
+const noPropertiesMessage = document.getElementById("no-properties-message");
+
+
+
     // --- Elementos de Filtros (Contabilidad) ---
     const transactionSearchInput = document.getElementById("transaction-search");
     const transactionTypeFilter = document.getElementById("transaction-type-filter");
@@ -166,43 +181,124 @@ document.addEventListener("DOMContentLoaded", function() {
         modal.classList.add("visible");
     };
 
-    // --- Funciones de Renderizado de Tablas ---
-    function renderClientsTable() {
-        const tableBody = document.getElementById("clients-table-body");
-        if (!tableBody) return;
-        tableBody.innerHTML = "";
-        allClients.forEach(client => {
-            const row = document.createElement("tr");
-            row.innerHTML = `
-                <td>${escapeHtml(client.name)}</td>
-                <td>${escapeHtml(client.email)}</td>
-                <td>${escapeHtml(client.phone || "-")}</td>
-                <td><span class="status status-${escapeHtml(client.status || "activo")}">${escapeHtml(client.status || "Activo")}</span></td>
-                <td><button class="btn-secondary btn-small edit-btn"><i class="fas fa-edit"></i> Editar</button></td>
-            `;
-            row.querySelector(".edit-btn").addEventListener("click", () => window.openAdminModal("clients", client));
-            tableBody.appendChild(row);
-        });
-    }
+// REEMPLAZA la función renderClientsTable() con esta nueva función:
+function renderClientsGrid() {
+    if (!clientsGridContainer) return;
+
+    const searchTerm = clientSearchInput.value.toLowerCase();
+    const statusFilter = clientStatusFilter.value;
+
+    const filteredClients = allClients.filter(client => {
+        const nameMatch = client.name.toLowerCase().includes(searchTerm);
+        const emailMatch = client.email.toLowerCase().includes(searchTerm);
+        const statusMatch = !statusFilter || client.status === statusFilter;
+        return (nameMatch || emailMatch) && statusMatch;
+    });
+
+    clientsGridContainer.innerHTML = ''; // Limpia el contenedor
     
-    function renderPropertiesTable() {
-        const tableBody = document.getElementById("properties-table-body");
-        if (!tableBody) return;
-        tableBody.innerHTML = "";
-        allProperties.forEach(prop => {
-            const row = document.createElement("tr");
-            row.innerHTML = `
-                <td>${escapeHtml(prop.id)}</td>
-                <td>${escapeHtml(prop.name)}</td>
-                <td>${escapeHtml(prop.modules)}</td>
-                <td>$${(prop.price || 0).toLocaleString("es-ES", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
-                <td><span class="status status-${escapeHtml(prop.status)}">${escapeHtml(prop.status)}</span></td>
-                <td><button class="btn-secondary btn-small edit-btn"><i class="fas fa-edit"></i> Editar</button></td>
-            `;
-            row.querySelector(".edit-btn").addEventListener("click", () => window.openAdminModal("properties", prop));
-            tableBody.appendChild(row);
-        });
+    if (filteredClients.length === 0) {
+        noClientsMessage.style.display = 'block';
+    } else {
+        noClientsMessage.style.display = 'none';
     }
+
+    filteredClients.forEach(client => {
+        const card = document.createElement("div");
+        card.className = "client-card";
+        card.innerHTML = `
+            <h4>${escapeHtml(client.name)}</h4>
+            <div class="client-info">
+                <div class="info-item">
+                    <i class="fas fa-envelope"></i>
+                    <span>${escapeHtml(client.email)}</span>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-phone"></i>
+                    <span>${escapeHtml(client.phone || "No disponible")}</span>
+                </div>
+                <div class="info-item status-indicator" data-status="${escapeHtml(client.status || 'inactivo')}">
+                    <div class="status-dot"></div>
+                    <span>${escapeHtml(client.status || 'Inactivo')}</span>
+                </div>
+            </div>
+            <div class="card-actions">
+                <button class="btn-secondary edit-btn"><i class="fas fa-edit"></i> Editar</button>
+                <!-- Opcional: Puedes añadir un botón para ver más detalles si lo necesitas -->
+                <!-- <button class="btn-secondary view-btn"><i class="fas fa-eye"></i> Ver Detalles</button> -->
+            </div>
+        `;
+
+        card.querySelector(".edit-btn").addEventListener("click", () => window.openAdminModal("clients", client));
+        clientsGridContainer.appendChild(card);
+    });
+}
+    
+// REEMPLAZA la función renderPropertiesTable() con esta nueva función:
+function renderPropertiesGrid() {
+    if (!propertiesGridContainer) return;
+
+    const searchTerm = propertySearchInput.value.toLowerCase();
+    const statusFilter = propertyStatusFilter.value;
+
+    const filteredProperties = allProperties.filter(prop => {
+        const nameMatch = prop.name.toLowerCase().includes(searchTerm);
+        const statusMatch = !statusFilter || prop.status === statusFilter;
+        return nameMatch && statusMatch;
+    });
+
+    propertiesGridContainer.innerHTML = '';
+    
+    if (filteredProperties.length === 0) {
+        noPropertiesMessage.style.display = 'block';
+    } else {
+        noPropertiesMessage.style.display = 'none';
+    }
+
+    filteredProperties.forEach(prop => {
+        const card = document.createElement("div");
+        card.className = "property-card";
+        
+        // Asumimos que tienes un campo 'imageUrl' en tus datos de propiedad.
+        // Si no, muestra una imagen por defecto.
+        const imageUrl = prop.imageUrl || 'https://via.placeholder.com/400x250.png?text=Sin+Imagen';
+
+        card.innerHTML = `
+            <div class="card-image" style="background-image: url('${escapeHtml(imageUrl )}')">
+                <span class="status-tag ${escapeHtml(prop.status)}">${escapeHtml(prop.status)}</span>
+            </div>
+            <div class="card-content">
+                <h4>${escapeHtml(prop.name)}</h4>
+                <ul class="details-list">
+                    <li class="price">
+                        <i class="fas fa-dollar-sign"></i>
+                        <span>${(prop.price || 0).toLocaleString('es-MX', { style: 'currency', currency: 'MXN' })}</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-cubes"></i>
+                        <span>${escapeHtml(prop.modules)} Módulos</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>${escapeHtml(prop.location || 'No especificada')}</span>
+                    </li>
+                </ul>
+                <div class="card-actions">
+                    <button class="btn-secondary edit-btn"><i class="fas fa-edit"></i> Editar</button>
+                    <button class="btn-secondary manage-photos-btn"><i class="fas fa-images"></i> Fotos</button>
+                </div>
+            </div>
+        `;
+
+        card.querySelector(".edit-btn").addEventListener("click", () => window.openAdminModal("properties", prop));
+        // El botón "Gestionar Fotos" por ahora no hará nada, pero está listo para añadirle funcionalidad.
+        card.querySelector(".manage-photos-btn").addEventListener("click", () => {
+            showToast("Función para gestionar fotos próximamente.", "info");
+        });
+
+        propertiesGridContainer.appendChild(card);
+    });
+}
 
     function renderProjectsTable() {
         const tableBody = document.getElementById("projects-table-body");
@@ -327,12 +423,12 @@ document.addEventListener("DOMContentLoaded", function() {
         // Configura listeners en tiempo real para cada colección
         db.collection("clients").onSnapshot(snapshot => {
             allClients = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-            renderClientsTable();
+            renderClientsGrid();
             updateKPIs();
         });
         db.collection("properties").onSnapshot(snapshot => {
             allProperties = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-            renderPropertiesTable();
+            renderPropertiesGrid();
             updateKPIs();
         });
         db.collection("projects").onSnapshot(snapshot => {
@@ -369,9 +465,21 @@ document.addEventListener("DOMContentLoaded", function() {
             });
         });
 
+        // Listeners para los filtros de clientes (NUEVO)
+    if (clientSearchInput) clientSearchInput.addEventListener("input", renderClientsGrid);
+    if (clientStatusFilter) clientStatusFilter.addEventListener("change", renderClientsGrid);
+
+        // Listeners para los filtros de propiedades (NUEVO)
+    if (propertySearchInput) propertySearchInput.addEventListener("input", renderPropertiesGrid);
+    if (propertyStatusFilter) propertyStatusFilter.addEventListener("change", renderPropertiesGrid);
+
+
+
         // Listeners para los filtros de contabilidad
         if (transactionSearchInput) transactionSearchInput.addEventListener("input", () => renderAccountingTable());
         if (transactionTypeFilter) transactionTypeFilter.addEventListener("change", () => renderAccountingTable());
+
+        
 
         // Botones de login/logout
         if (loginBtn) {
@@ -401,8 +509,8 @@ document.addEventListener("DOMContentLoaded", function() {
             // Aseguramos que la tabla o KPIs de la sección activa se rendericen al cambiar de sección
             switch (sectionId) {
                 case "summary": updateKPIs(); break;
-                case "clients": renderClientsTable(); break;
-                case "properties": renderPropertiesTable(); break;
+                case "clients": renderClientsGrid(); break;
+                case "properties": renderPropertiesGrid(); break;
                 case "projects": renderProjectsTable(); break;
                 case "accounting": renderAccountingTable(); break;
             }

@@ -88,63 +88,53 @@
                 </div>
             </section>
 
-            <!-- Sección de Clientes -->
-            <section id="clients" class="dashboard-section">
-                <h2>Gestión de Clientes</h2>
-                <button class="btn-primary add-new-btn"><i class="fas fa-plus"></i> Añadir Nuevo Cliente</button>
-                <div class="table-filters">
-                    <input type="text" id="client-search" placeholder="Buscar cliente...">
-                    <button class="btn-secondary"><i class="fas fa-filter"></i> Filtrar</button>
-                </div>
-                <div class="table-container">
-                    <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>Nombre</th>
-                                <th>Email</th>
-                                <th>Teléfono</th>
-                                <th>Estado</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody id="clients-table-body">
-                            <!-- Datos de clientes aquí -->
-                        </tbody>
-                    </table>
-                </div>
-            </section>
+<!-- Sección de Clientes (MEJORADA) -->
+<section id="clients" class="dashboard-section">
+    <h2>Gestión de Clientes</h2>
+    <div class="section-header">
+        <button class="btn-primary add-new-btn"><i class="fas fa-plus"></i> Añadir Nuevo Cliente</button>
+        <div class="table-filters">
+            <input type="text" id="client-search" placeholder="Buscar cliente por nombre o email...">
+            <select id="client-status-filter">
+                <option value="">Todos los estados</option>
+                <option value="activo">Activo</option>
+                <option value="potencial">Potencial</option>
+                <option value="inactivo">Inactivo</option>
+            </select>
+        </div>
+    </div>
+    <!-- Contenedor para las tarjetas de cliente -->
+    <div id="clients-grid-container" class="clients-grid">
+        <!-- Las tarjetas de cliente se generarán aquí con JavaScript -->
+        <div id="clients-loader" class="spinner" style="display: none;"></div>
+        <p id="no-clients-message" style="display: none; text-align: center; padding: 2rem;">No se encontraron clientes que coincidan con los filtros.</p>
+    </div>
+</section>
 
-            <!-- Sección de Propiedades -->
-            <section id="properties" class="dashboard-section">
-                <h2>Gestión de Propiedades</h2>
-                <button class="btn-primary add-new-btn"><i class="fas fa-plus"></i> Añadir Nueva Propiedad</button>
-                <div class="table-filters">
-                    <input type="text" id="property-search" placeholder="Buscar propiedad...">
-                    <select id="property-status-filter">
-                        <option value="">Todos los estados</option>
-                        <option value="disponible">Disponible</option>
-                        <option value="vendida">Vendida</option>
-                        <option value="en-construccion">En Construcción</option>
-                    </select>
-                </div>
-                <div class="table-container">
-                    <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Nombre</th>
-                                <th>Módulos</th>
-                                <th>Precio</th>
-                                <th>Estado</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody id="properties-table-body">
-                            <!-- Datos de propiedades aquí -->
-                        </tbody>
-                    </table>
-                </div>
-            </section>
+
+<!-- Sección de Propiedades (MEJORADA CON TARJETAS VISUALES) -->
+<section id="properties" class="dashboard-section">
+    <h2>Gestión de Propiedades</h2>
+    <div class="section-header">
+        <button class="btn-primary add-new-btn"><i class="fas fa-plus"></i> Añadir Nueva Propiedad</button>
+        <div class="table-filters">
+            <input type="text" id="property-search" placeholder="Buscar por nombre o modelo...">
+            <select id="property-status-filter">
+                <option value="">Todos los estados</option>
+                <option value="disponible">Disponible</option>
+                <option value="vendida">Vendida</option>
+                <option value="en-construccion">En Construcción</option>
+            </select>
+        </div>
+    </div>
+    <!-- Contenedor para las tarjetas de propiedades -->
+    <div id="properties-grid-container" class="properties-grid">
+        <!-- Las tarjetas de propiedades se generarán aquí con JavaScript -->
+        <div id="properties-loader" class="spinner" style="display: none;"></div>
+        <p id="no-properties-message" style="display: none; text-align: center; padding: 2rem;">No se encontraron propiedades.</p>
+    </div>
+</section>
+
 
             <!-- Sección de Proyectos -->
             <section id="projects" class="dashboard-section">
